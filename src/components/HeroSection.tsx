@@ -5,27 +5,32 @@ const HeroSection = () => {
   return (
     <section className="relative min-h-screen bg-gradient-to-br from-purple-600 via-purple-500 to-pink-500 overflow-hidden">
       {/* Animated Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-10 text-4xl animate-bounce">
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Row 1 */}
+        <div className="absolute top-[15%] left-[10%] text-4xl animate-bounce">
           ⭐
         </div>
-        <div className="absolute top-32 right-20 text-3xl animate-pulse">
+        <div className="absolute top-[10%] left-[50%] text-4xl animate-bounce delay-100">
           📚
         </div>
-        <div className="absolute top-60 left-1/4 text-2xl animate-bounce delay-100">
+        <div className="absolute top-[15%] left-[90%] text-4xl animate-bounce delay-200">
           🕐
         </div>
-        <div className="absolute top-80 right-1/3 text-3xl animate-pulse delay-200">
+
+        {/* Row 2 */}
+        <div className="absolute top-[50%] left-[15%] text-4xl animate-bounce delay-300">
           🪙
         </div>
-        <div className="absolute bottom-40 left-1/3 text-2xl animate-bounce delay-300">
+        <div className="absolute top-[50%] left-[85%] text-4xl animate-bounce delay-500">
+          🎮
+        </div>
+
+        {/* Row 3 */}
+        <div className="absolute top-[80%] left-[10%] text-4xl animate-bounce delay-600">
           🍎
         </div>
-        <div className="absolute bottom-60 right-10 text-4xl animate-pulse delay-150">
-          ✨
-        </div>
-        <div className="absolute top-40 left-1/2 text-2xl animate-bounce delay-500">
-          🌟
+        <div className="absolute top-[80%] left-[90%] text-4xl animate-bounce delay-800">
+          🪄
         </div>
       </div>
 

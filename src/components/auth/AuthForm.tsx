@@ -90,7 +90,7 @@ export const AuthForm = () => {
     if (error) {
       toast({
         title: "🚫 Login Failed",
-        description: error.message,
+        description: "Invalid Login Credentials. Please Try Again.",
         variant: "destructive",
       });
       setLoading(false);
@@ -331,7 +331,7 @@ export const AuthForm = () => {
                       </Label>
                       <Select name="classLevel" required>
                         <SelectTrigger className="h-12">
-                          <SelectValue placeholder="Select your class (2-8)" />
+                          <SelectValue placeholder="Select Your Class (2-8)" />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="2">🏫 Class 2</SelectItem>
