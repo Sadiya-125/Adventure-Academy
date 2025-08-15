@@ -809,7 +809,7 @@ export const StudentDashboard = () => {
                                   {/* Click Hint */}
                                   {canClick && (
                                     <div className="mt-2 text-sm text-center text-primary font-medium">
-                                      Click to explore
+                                      Click to Explore
                                     </div>
                                   )}
                                 </CardContent>
@@ -1024,11 +1024,6 @@ export const StudentDashboard = () => {
                                       </div>
                                     )}
                                   </div>
-                                  {entry.total_points === 0 && (
-                                    <div className="mt-2 text-xs text-orange-600 bg-orange-50 px-2 py-1 rounded">
-                                      🚀 Start your adventure to earn points!
-                                    </div>
-                                  )}
                                 </div>
                               </div>
                               <div className="text-right">
