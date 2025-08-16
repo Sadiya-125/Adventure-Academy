@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/hooks/use-toast";
 import {
   Card,
   CardContent,
@@ -44,6 +45,7 @@ import {
   Clock,
   Target,
   Award,
+  PlusIcon,
 } from "lucide-react";
 import {
   BarChart,
@@ -126,7 +128,7 @@ interface QuizQuestion {
   quiz_id: string;
   question_text: string;
   question_type: "mcq" | "true_false";
-  options: any; // Using any to handle Supabase Json type
+  options: any;
   correct_answer: string;
   explanation: string | null;
   order_index: number;
@@ -488,6 +490,27 @@ export const AdminDashboard = () => {
     passing_score: number;
     points_reward: number;
   }) => {
+    const totalQ = Number(formData.total_questions);
+    const points = Number(formData.points_reward);
+
+    if (totalQ <= 0) {
+      toast({
+        title: "⚠️ Invalid Total Questions",
+        description: "Total Questions Must be Greater than 0.",
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    if (points % totalQ !== 0) {
+      toast({
+        title: "⚠️ Invalid Points Rewarded",
+        description: "Points Rewarded Must be a Multiple of Total Questions.",
+        variant: "destructive",
+      });
+      return false;
+    }
+
     const { error } = await supabase.from("quizzes").insert({
       ...formData,
       total_questions: Number(formData.total_questions),
@@ -598,6 +621,27 @@ export const AdminDashboard = () => {
       points_reward: number;
     }
   ) => {
+    const totalQ = Number(formData.total_questions);
+    const points = Number(formData.points_reward);
+
+    if (totalQ <= 0) {
+      toast({
+        title: "⚠️ Invalid Total Questions",
+        description: "Total Questions Must be Greater than 0.",
+        variant: "destructive",
+      });
+      return false;
+    }
+
+    if (points % totalQ !== 0) {
+      toast({
+        title: "⚠️ Invalid Points Rewarded",
+        description: "Points Rewarded Must be a Multiple of Total Questions.",
+        variant: "destructive",
+      });
+      return false;
+    }
+
     const { error } = await supabase
       .from("quizzes")
       .update({
@@ -821,7 +865,7 @@ export const AdminDashboard = () => {
                       onSubmitWorld={createWorld}
                     >
                       <Button variant="treasure" className="h-20 flex-col">
-                        <Plus className="w-6 h-6 mb-1" />
+                        <Plus className="w-20 h-20" strokeWidth={4} />
                         Create World
                       </Button>
                     </CreateWorldDialog>
@@ -832,7 +876,7 @@ export const AdminDashboard = () => {
                       onSubmitRealm={createRealm}
                     >
                       <Button variant="quest" className="h-20 flex-col">
-                        <Plus className="w-6 h-6 mb-1" />
+                        <Plus className="w-20 h-20" strokeWidth={4} />
                         Create Realm
                       </Button>
                     </CreateRealmDialog>
@@ -845,7 +889,7 @@ export const AdminDashboard = () => {
                       onSubmitQuiz={createQuiz}
                     >
                       <Button variant="magical" className="h-20 flex-col">
-                        <Plus className="w-6 h-6 mb-1" />
+                        <Plus className="w-20 h-20" strokeWidth={4} />
                         Create Quiz
                       </Button>
                     </CreateQuizDialog>
@@ -856,7 +900,7 @@ export const AdminDashboard = () => {
                       onSubmitQuestions={createQuizQuestions}
                     >
                       <Button variant="quest" className="h-20 flex-col">
-                        <Plus className="w-6 h-6 mb-1" />
+                        <Plus className="w-20 h-20" strokeWidth={4} />
                         Create Quiz Questions
                       </Button>
                     </CreateQuizQuestionsDialog>
@@ -890,6 +934,7 @@ export const AdminDashboard = () => {
                           </div>
                           <Badge
                             variant={world.is_active ? "default" : "secondary"}
+                            className="text-sm"
                           >
                             {world.is_active ? "Active" : "Inactive"}
                           </Badge>
@@ -1313,7 +1358,7 @@ export const AdminDashboard = () => {
                                   {world.description}
                                 </p>
                                 <p className="text-sm text-muted-foreground">
-                                  {worldRealms.length} Realms • Order:{" "}
+                                  {worldRealms.length} Realm(s) • Order:{" "}
                                   {world.order_index}
                                 </p>
                               </div>
@@ -1422,7 +1467,7 @@ export const AdminDashboard = () => {
                                         .map((quiz) => (
                                           <div
                                             key={quiz.id}
-                                            className="p-2 bg-white rounded border pb-5 mb-2"
+                                            className="p-2 bg-white rounded-lg border pb-5 mb-2"
                                           >
                                             <div className="flex items-center justify-between p-2">
                                               <div>
@@ -1430,9 +1475,10 @@ export const AdminDashboard = () => {
                                                   {quiz.title}
                                                 </div>
                                                 <div className="text-sm text-muted-foreground">
-                                                  {quiz.total_questions} Q •
-                                                  Pass {quiz.passing_score}% •{" "}
-                                                  {quiz.points_reward} Pts
+                                                  {quiz.total_questions}{" "}
+                                                  Question(s) • Pass Percentage{" "}
+                                                  {quiz.passing_score}% •{" "}
+                                                  {quiz.points_reward} Point(s)
                                                 </div>
                                               </div>
                                               <div className="flex items-center space-x-1">
@@ -1478,22 +1524,21 @@ export const AdminDashboard = () => {
                                                   .map((question) => (
                                                     <div
                                                       key={question.id}
-                                                      className="flex items-center justify-between text-sm p-2 bg-gray-50 rounded"
+                                                      className="flex items-center justify-between text-sm p-2 bg-gray-50 rounded-lg"
                                                     >
                                                       <div className="flex-1">
                                                         <div className="font-medium">
-                                                          {question.question_text.substring(
-                                                            0,
-                                                            50
-                                                          )}
-                                                          ...
+                                                          {
+                                                            question.question_text
+                                                          }
                                                         </div>
                                                         <div className="text-muted-foreground">
-                                                          {
-                                                            question.question_type
-                                                          }{" "}
+                                                          {question.question_type ===
+                                                          "mcq"
+                                                            ? "Multiple Choice"
+                                                            : "True/False"}{" "}
                                                           • {question.points}{" "}
-                                                          pts • Order{" "}
+                                                          Point(s) • Order{" "}
                                                           {question.order_index}
                                                         </div>
                                                       </div>
@@ -1543,28 +1588,39 @@ export const AdminDashboard = () => {
                                                     createQuizQuestions
                                                   }
                                                 >
-                                                  <Button
-                                                    variant="outline"
-                                                    size="sm"
-                                                  >
-                                                    + Add Questions
-                                                  </Button>
+                                                  {quizQuestions.filter(
+                                                    (q) => q.quiz_id === quiz.id
+                                                  ).length <
+                                                    quiz.total_questions && (
+                                                    <Button
+                                                      variant="outline"
+                                                      size="sm"
+                                                    >
+                                                      <PlusIcon className="w-4 h-4 mr-1" />
+                                                      Add Questions
+                                                    </Button>
+                                                  )}
                                                 </CreateQuizQuestionsDialog>
                                               </div>
                                             </div>
                                           </div>
                                         ))}
-                                      <CreateQuizDialog
-                                        worlds={worlds}
-                                        realms={[realm]}
-                                        quizzes={quizzes}
-                                        onQuizCreated={() => fetchData()}
-                                        onSubmitQuiz={createQuiz}
-                                      >
-                                        <Button variant="outline" size="sm">
-                                          + Add Quiz
-                                        </Button>
-                                      </CreateQuizDialog>
+                                      {!quizzes.some(
+                                        (q) => q.realm_id === realm.id
+                                      ) && (
+                                        <CreateQuizDialog
+                                          worlds={worlds}
+                                          realms={[realm]}
+                                          quizzes={quizzes}
+                                          onQuizCreated={() => fetchData()}
+                                          onSubmitQuiz={createQuiz}
+                                        >
+                                          <Button variant="outline" size="sm">
+                                            <PlusIcon className="w-4 h-4 mr-1" />
+                                            Add Quiz
+                                          </Button>
+                                        </CreateQuizDialog>
+                                      )}
                                     </div>
                                   </div>
                                 </div>
@@ -2013,7 +2069,7 @@ const CreateWorldDialog = ({
             <Textarea
               id="description"
               name="description"
-              placeholder="Learn about time management and scheduling"
+              placeholder="Learn About Time Management and Scheduling"
               required
             />
           </div>
@@ -2115,7 +2171,7 @@ const CreateRealmDialog = ({
               required
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
             >
-              <option value="">Select a world</option>
+              <option value="">Select a World</option>
               {worlds.map((world) => (
                 <option key={world.id} value={world.id}>
                   {world.emoji} {world.name}
@@ -2129,7 +2185,7 @@ const CreateRealmDialog = ({
             <Textarea
               id="realm-description"
               name="description"
-              placeholder="Learn how to create daily schedules"
+              placeholder="Learn How to Create Daily Schedules"
               required
             />
           </div>
@@ -2301,7 +2357,7 @@ const CreateQuizDialog = ({
               />
             </div>
             <div>
-              <Label htmlFor="points_reward">Points Reward</Label>
+              <Label htmlFor="points_reward">Points Rewarded</Label>
               <div className="mb-1"></div>
               <Input
                 id="points_reward"
@@ -2361,10 +2417,35 @@ const CreateQuizQuestionsDialog = ({
       points: number;
     }[]
   >([]);
-
   const selectedQuiz = quizzes.find((q) => q.id === selectedQuizId);
+  const [existingQuestionsCount, setExistingQuestionsCount] = useState(0);
+
+  useEffect(() => {
+    if (!selectedQuizId) return;
+
+    const fetchExistingCount = async () => {
+      const { count, error } = await supabase
+        .from("quiz_questions")
+        .select("id", { count: "exact", head: true })
+        .eq("quiz_id", selectedQuizId);
+
+      if (!error && count !== null) {
+        setExistingQuestionsCount(count);
+      } else {
+        console.error("Error fetching existing question count:", error);
+        setExistingQuestionsCount(0);
+      }
+    };
+
+    fetchExistingCount();
+  }, [selectedQuizId]);
 
   const addQuestion = () => {
+    if (!selectedQuiz) return;
+
+    const perQuestionPoints =
+      selectedQuiz.points_reward / selectedQuiz.total_questions;
+
     setQuestions([
       ...questions,
       {
@@ -2373,7 +2454,7 @@ const CreateQuizQuestionsDialog = ({
         options: ["", "", "", ""],
         correct_answer: "",
         explanation: "",
-        points: 1,
+        points: perQuestionPoints,
       },
     ]);
   };
@@ -2395,6 +2476,9 @@ const CreateQuizQuestionsDialog = ({
         newQuestions[index].options = ["", "", "", ""];
         newQuestions[index].correct_answer = "";
       }
+    } else if (field === "points" && selectedQuiz) {
+      newQuestions[index].points =
+        selectedQuiz.points_reward / selectedQuiz.total_questions;
     } else {
       newQuestions[index] = { ...newQuestions[index], [field]: value };
     }
@@ -2417,14 +2501,13 @@ const CreateQuizQuestionsDialog = ({
     setLoading(true);
 
     if (!selectedQuizId) {
-      alert("Please select a quiz first");
+      alert("Please Select a Quiz First");
       setLoading(false);
       return;
     }
 
-    // Validate questions
     if (questions.length === 0) {
-      alert("Please add at least one question");
+      alert("Please Add At Least One Question");
       setLoading(false);
       return;
     }
@@ -2438,12 +2521,12 @@ const CreateQuizQuestionsDialog = ({
       }
       if (q.question_type === "mcq") {
         if (q.options.some((opt) => !opt.trim())) {
-          alert(`Question ${i + 1}: Please fill all MCQ Options`);
+          alert(`Question ${i + 1}: Please Fill all MCQ Options`);
           setLoading(false);
           return;
         }
         if (!q.options.includes(q.correct_answer)) {
-          alert(`Question ${i + 1}: Correct Answer must be One of the Options`);
+          alert(`Question ${i + 1}: Correct Answer Must be One of the Options`);
           setLoading(false);
           return;
         }
@@ -2479,7 +2562,7 @@ const CreateQuizQuestionsDialog = ({
             Choice or True/False Questions.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-3">
           <div>
             <Label htmlFor="quiz-select">Select Quiz</Label>
             <div className="mb-1"></div>
@@ -2501,7 +2584,7 @@ const CreateQuizQuestionsDialog = ({
 
           {selectedQuiz && (
             <div className="p-4 bg-muted/50 rounded-lg">
-              <h4 className="font-medium mb-2">
+              <h4 className="text-sm mb-2">
                 Selected Quiz: {selectedQuiz.title}
               </h4>
               <p className="text-sm text-muted-foreground">
@@ -2511,9 +2594,9 @@ const CreateQuizQuestionsDialog = ({
           )}
 
           {selectedQuizId && (
-            <div className="space-y-4">
+            <div>
               {questions.map((question, index) => (
-                <div key={index} className="p-4 border rounded-lg space-y-4">
+                <div key={index} className="p-5 border rounded-lg space-y-3">
                   <div className="flex items-center justify-between">
                     <h4 className="font-medium">Question {index + 1}</h4>
                     <Button
@@ -2554,21 +2637,15 @@ const CreateQuizQuestionsDialog = ({
                         <option value="true_false">True/False</option>
                       </select>
                     </div>
+
                     <div>
                       <Label>Points</Label>
                       <div className="mb-1"></div>
                       <Input
                         type="number"
-                        min="1"
                         value={question.points}
-                        onChange={(e) =>
-                          updateQuestion(
-                            index,
-                            "points",
-                            Number(e.target.value)
-                          )
-                        }
-                        required
+                        readOnly
+                        className="text-black cursor-not-allowed"
                       />
                     </div>
                   </div>
@@ -2669,10 +2746,13 @@ const CreateQuizQuestionsDialog = ({
 
           {selectedQuizId && (
             <div className="flex justify-between">
-              <Button type="button" variant="outline" onClick={addQuestion}>
-                <Plus className="w-4 h-4 mr-2" />
-                Add Question
-              </Button>
+              {existingQuestionsCount + questions.length <
+                selectedQuiz.total_questions && (
+                <Button type="button" variant="outline" onClick={addQuestion}>
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Question
+                </Button>
+              )}
               <div className="space-x-2">
                 <Button
                   type="button"
@@ -2883,12 +2963,12 @@ const EditRealmDialog = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-h-[90vh] overflow-y-auto max-w-2xl">
         <DialogHeader>
           <DialogTitle>✏️ Edit Realm</DialogTitle>
           <DialogDescription>Update Realm Details</DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <Label htmlFor="realm_edit_name">Name</Label>
             <div className="mb-1"></div>
@@ -3120,7 +3200,7 @@ const EditQuizDialog = ({
               />
             </div>
             <div>
-              <Label htmlFor="quiz_edit_points_reward">Points Reward</Label>
+              <Label htmlFor="quiz_edit_points_reward">Points Rewarded</Label>
               <div className="mt-1"></div>
               <Input
                 id="quiz_edit_points_reward"
@@ -3201,12 +3281,12 @@ const EditQuizQuestionDialog = ({
     // Validate form
     if (form.question_type === "mcq") {
       if (form.options.some((opt) => !opt.trim())) {
-        alert("Please fill all MCQ Options");
+        alert("Please Fill all MCQ Options");
         setLoading(false);
         return;
       }
       if (!form.options.includes(form.correct_answer)) {
-        alert("Correct Answer must be One of the Options");
+        alert("Correct Answer Must be One of the Options");
         setLoading(false);
         return;
       }
@@ -3276,12 +3356,9 @@ const EditQuizQuestionDialog = ({
               <Input
                 id="question_edit_points"
                 type="number"
-                min="1"
                 value={form.points}
-                onChange={(e) =>
-                  setForm((p) => ({ ...p, points: Number(e.target.value) }))
-                }
-                required
+                readOnly
+                className="text-black cursor-not-allowed"
               />
             </div>
           </div>

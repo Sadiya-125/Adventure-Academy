@@ -759,26 +759,26 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
       if (isPassed) {
         showAlert(
           "Congratulations! 🎉",
-          `You passed the quiz with ${score}%! You earned ${pointsEarned} points. This was attempt #${newAttempts}.`,
+          `You Passed the Quiz with ${score}%! You Earned ${pointsEarned} Points. This was Attempt #${newAttempts}.`,
           "success"
         );
       } else {
         const retryMessage =
           newAttempts > 1
-            ? `This was attempt #${newAttempts}. Your best score so far is ${newBestScore}%. Keep practicing!`
-            : `This was attempt #${newAttempts}. Keep practicing to improve your score!`;
+            ? `This was Attempt #${newAttempts}. Your Best Score so Far is ${newBestScore}%. Keep Practicing!`
+            : `This was Attempt #${newAttempts}. Keep Practicing to Improve your Score!`;
 
         showAlert(
           "Quiz Completed",
-          `Quiz completed with ${score}%. ${retryMessage}`,
+          `Quiz Completed with ${score}%. ${retryMessage}`,
           "warning"
         );
       }
     } catch (error) {
-      console.error("Error updating quiz progress:", error);
+      console.error("Error Updating Quiz Progress:", error);
       showAlert(
         "Error",
-        "An unexpected error occurred while saving your progress. Please try again.",
+        "An Unexpected Error OccurredWhile Saving your Progress. Please Try Again.",
         "error"
       );
     } finally {
@@ -788,12 +788,10 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
 
   const handleFinishQuiz = () => {
     if (!quizResults) {
-      console.error("No quiz results available");
-      showAlert("Error", "Error: No quiz results to save. Please try again.");
+      console.error("No Quiz Results Available");
+      showAlert("Error", "Error: No Quiz Results to Save. Please Try Again.");
       return;
     }
-
-    console.log("Finishing quiz with results:", quizResults);
     handleQuizComplete(quizResults.percentage);
   };
 
@@ -901,12 +899,11 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
                         <span>Attempts:</span>
                         <span>{realmProgress.quiz_attempts}</span>
                       </div>
-                      {realmProgress.quiz_best_score > 0 && (
-                        <div className="flex justify-between">
-                          <span>Best Score:</span>
-                          <span>{realmProgress.quiz_best_score}%</span>
-                        </div>
-                      )}
+
+                      <div className="flex justify-between">
+                        <span>Best Score:</span>
+                        <span>{realmProgress.quiz_best_score}%</span>
+                      </div>
                     </div>
                   )}
 
@@ -947,7 +944,7 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
                         } else {
                           showAlert(
                             "Realm Locked",
-                            "Complete the previous realm to unlock this video.",
+                            "Complete the Previous Realm to Unlock this Video.",
                             "warning"
                           );
                         }
@@ -982,7 +979,7 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
                         } else {
                           showAlert(
                             "Video Required",
-                            "You must watch the video before taking the quiz.",
+                            "You Must Watch the Video Before Taking the Quiz.",
                             "warning"
                           );
                         }
@@ -1015,7 +1012,7 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
                   {realmProgress?.points_earned > 0 && (
                     <div className="flex items-center justify-center gap-2 text-sm text-treasure-gold">
                       <Star className="w-4 h-4" />
-                      <span>{realmProgress.points_earned} points earned</span>
+                      <span>{realmProgress.points_earned} Points Earned</span>
                     </div>
                   )}
                 </CardContent>
@@ -1052,8 +1049,8 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
                   <Video className="w-16 h-16 mx-auto mb-4" />
                   <p>
                     {selectedRealm?.video_url
-                      ? "Invalid video URL. Please check the video link."
-                      : "Video content will be available here"}
+                      ? "Invalid Video URL. Please Check the Video Link."
+                      : "Video Content will be Available Here"}
                   </p>
                 </div>
               </div>
@@ -1244,12 +1241,12 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
                       (currentQuiz?.passing_score || 70) ? (
                         <div className="flex items-center justify-center gap-2 text-green-600">
                           <span className="text-2xl">🎉</span>
-                          <span>Congratulations! You passed!</span>
+                          <span>Congratulations! You Passed!</span>
                           <span className="text-2xl">🎉</span>
                         </div>
                       ) : (
                         <div className="text-orange-600">
-                          Keep practicing to improve your score!
+                          Keep Practicing to Improve your Score!
                         </div>
                       )}
                     </div>
@@ -1272,7 +1269,7 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
                               <div className="space-y-1 text-sm">
                                 <div>
                                   <span className="font-medium">
-                                    Your answer:
+                                    Your Answer:
                                   </span>{" "}
                                   <span className="text-red-600">
                                     {wrong.userAnswer}
@@ -1280,7 +1277,7 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
                                 </div>
                                 <div>
                                   <span className="font-medium">
-                                    Correct answer:
+                                    Correct Answer:
                                   </span>{" "}
                                   <span className="text-green-600">
                                     {wrong.correctAnswer}
