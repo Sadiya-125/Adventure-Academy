@@ -1,5 +1,6 @@
 import React from "react";
 import { Play, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   return (
@@ -49,12 +50,12 @@ const HeroSection = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-fade-in delay-600">
-            <a href="/auth">
+            <Link to="/auth">
               <button className="group bg-yellow-400 hover:bg-yellow-300 text-purple-800 font-bold py-4 px-8 rounded-full text-xl shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center gap-3">
                 🚀 Start Your Quest
                 <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
               </button>
-            </a>
+            </Link>
             <button className="group bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-bold py-4 px-8 rounded-full text-xl shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center gap-3">
               <Play className="w-6 h-6" />
               Watch Demo

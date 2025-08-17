@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const NavigationSection = () => {
   return (
@@ -23,11 +24,11 @@ const NavigationSection = () => {
               Start your magical learning adventure with fun quests and
               challenges!
             </p>
-            <a href="/auth">
+            <Link to="/auth">
               <button className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 px-6 rounded-full hover:from-purple-600 hover:to-pink-600 transition-all duration-300">
                 Begin Quest ⚡
               </button>
-            </a>
+            </Link>
           </div>
 
           <div className="group bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-4 border-transparent hover:border-teal-400">
@@ -41,11 +42,11 @@ const NavigationSection = () => {
               Track your child's progress and guide their learning journey
               safely.
             </p>
-            <a href="/auth">
+            <Link to="/auth">
               <button className="w-full bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-bold py-3 px-6 rounded-full hover:from-teal-600 hover:to-cyan-600 transition-all duration-300">
                 Monitor Progress 📊
               </button>
-            </a>
+            </Link>
           </div>
 
           <div className="group bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-4 border-transparent hover:border-orange-400">
@@ -58,11 +59,11 @@ const NavigationSection = () => {
             <p className="text-purple-600 text-center mb-6">
               Manage the platform and create amazing learning experiences.
             </p>
-            <a href="/auth">
+            <Link to="/auth">
               <button className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold py-3 px-6 rounded-full hover:from-orange-600 hover:to-red-600 transition-all duration-300">
                 Access Dashboard 🎛️
               </button>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

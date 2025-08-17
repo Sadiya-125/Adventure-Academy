@@ -1,5 +1,6 @@
 import React from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const FinalCTASection = () => {
   return (
@@ -35,12 +36,12 @@ const FinalCTASection = () => {
         </p>
 
         <div className="flex flex-col items-center gap-6">
-          <a href="/auth">
+          <Link to="/auth">
             <button className="group bg-yellow-400 hover:bg-yellow-300 text-purple-800 font-bold py-6 px-12 rounded-full text-2xl shadow-2xl transform hover:scale-110 transition-all duration-300 flex items-center gap-4">
               🚀 Create Account
               <ArrowRight className="w-8 h-8 group-hover:translate-x-2 transition-transform" />
             </button>
-          </a>
+          </Link>
           <p className="text-purple-200 text-sm">
             Free trial • No credit card required • Safe for kids
           </p>

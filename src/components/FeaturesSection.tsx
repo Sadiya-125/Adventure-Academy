@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const FeaturesSection = () => {
   const worlds = [
@@ -62,13 +63,13 @@ const FeaturesSection = () => {
                   {world.description}
                 </p>
               </div>
-              <a href="/auth">
+              <Link to="/auth">
                 <button
                   className={`w-full bg-gradient-to-r ${world.color} text-white font-bold py-3 px-4 rounded-full hover:shadow-lg transform hover:scale-105 transition-all duration-300`}
                 >
                   Explore World ✨
                 </button>
-              </a>
+              </Link>
             </div>
           ))}
         </div>
