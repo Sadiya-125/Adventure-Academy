@@ -41,7 +41,7 @@ const HeroSection = () => {
             🏰 Adventure Academy
           </h1>
           <h2 className="text-2xl md:text-4xl font-semibold mb-6 text-yellow-200 animate-fade-in delay-200">
-            Where learning becomes an epic adventure! ✨
+            Where Learning becomes an Epic Adventure! ✨
           </h2>
           <p className="text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed animate-fade-in delay-400">
             Join thousands of young heroes mastering life skills through magical
