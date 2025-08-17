@@ -13,28 +13,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import {
-  ArrowRight,
   CheckCircle,
   Star,
   Trophy,
   Target,
   Clock,
-  Heart,
-  DollarSign,
-  Apple,
   Lock,
   Medal,
   Award,
-  Crown,
   Zap,
-  Sparkles,
-  Rocket,
-  Gem,
-  Diamond,
   Crown as CrownIcon,
   Play,
   Brain,
-  Video,
 } from "lucide-react";
 import { WorldView } from "./WorldView";
 import { useToast } from "@/components/ui/use-toast";
@@ -334,36 +324,6 @@ export const StudentDashboard = () => {
     }
   };
 
-  const getWorldIcon = (worldName: string) => {
-    switch (worldName.toLowerCase()) {
-      case "world of time":
-        return <Clock className="w-6 h-6" />;
-      case "world of emotions":
-        return <Heart className="w-6 h-6" />;
-      case "world of money":
-        return <DollarSign className="w-6 h-6" />;
-      case "world of wellness":
-        return <Apple className="w-6 h-6" />;
-      default:
-        return <Star className="w-6 h-6" />;
-    }
-  };
-
-  const getWorldColor = (worldName: string) => {
-    switch (worldName.toLowerCase()) {
-      case "world of time":
-        return "world-time";
-      case "world of emotions":
-        return "world-emotions";
-      case "world of money":
-        return "world-money";
-      case "world of wellness":
-        return "world-wellness";
-      default:
-        return "primary";
-    }
-  };
-
   const isWorldUnlocked = (worldIndex: number) => {
     if (worldIndex === 0) return true;
 
@@ -543,7 +503,7 @@ export const StudentDashboard = () => {
                     variant={unlocked ? "world" : "locked"}
                     className={`group cursor-pointer transition-all duration-300 hover:scale-105 ${
                       unlocked ? "hover:shadow-lg" : "opacity-60"
-                    }`}
+                    } flex flex-col justify-center h-full`}
                     onClick={() => {
                       if (unlocked) {
                         handleEnterWorld(world.id);
@@ -557,7 +517,7 @@ export const StudentDashboard = () => {
                             unlocked ? "bg-primary/20" : "bg-gray-200"
                           }`}
                         >
-                          {getWorldIcon(world.name)}
+                          <span className="text-3xl">{world.emoji}</span>
                         </div>
                         {!unlocked && (
                           <Lock className="absolute -top-2 -right-2 w-6 h-6 text-muted-foreground" />
@@ -573,9 +533,7 @@ export const StudentDashboard = () => {
                             </div>
                           )}
                       </div>
-                      <CardTitle className="text-lg">
-                        {world.emoji} {world.name}
-                      </CardTitle>
+                      <CardTitle className="text-lg">{world.name}</CardTitle>
                       <CardDescription>{world.description}</CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -667,11 +625,11 @@ export const StudentDashboard = () => {
                                 worldUnlocked ? "bg-primary/20" : "bg-gray-200"
                               }`}
                             >
-                              {getWorldIcon(world.name)}
+                              <span className="text-3xl">{world.emoji}</span>
                             </div>
                             <div>
                               <h3 className="text-xl font-bold flex items-center gap-2">
-                                {world.emoji} {world.name}
+                                {world.name}
                                 {!worldUnlocked && (
                                   <Lock className="w-5 h-5 text-muted-foreground" />
                                 )}

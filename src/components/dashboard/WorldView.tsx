@@ -398,7 +398,6 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
     if (!selectedRealm || !user) return;
 
     setIsUpdatingProgress(true);
-    console.log("Starting video complete process for realm:", selectedRealm.id);
 
     try {
       const { data: profileData, error: profileError } = await supabase
@@ -408,26 +407,20 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
         .single();
 
       if (profileError) {
-        console.error("Error fetching profile:", profileError);
+        console.error("Error Fetching Profile:", profileError);
         showAlert(
           "Error",
-          "Error: Could not fetch user profile. Please try again."
+          "Error: Could Not Fetch User Profile. Please Try Again."
         );
         return;
       }
 
-      console.log("Profile data:", profileData);
-
       if (profileData) {
-        // Update or create progress record
         const existingProgress = progress.find(
           (p) => p.realm_id === selectedRealm.id
         );
 
-        console.log("Existing progress:", existingProgress);
-
         if (existingProgress) {
-          console.log("Updating existing progress record");
           const { error: updateError } = await supabase
             .from("student_progress")
             .update({
@@ -438,16 +431,14 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
             .eq("id", existingProgress.id);
 
           if (updateError) {
-            console.error("Error updating progress:", updateError);
+            console.error("Error Updating Progress:", updateError);
             showAlert(
               "Error",
-              "Error: Could not update progress. Please try again."
+              "Error: Could Not Update Progress. Please Try Again."
             );
             return;
           }
-          console.log("Successfully updated progress");
         } else {
-          console.log("Creating new progress record");
           const { error: insertError } = await supabase
             .from("student_progress")
             .insert({
@@ -458,35 +449,30 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
             });
 
           if (insertError) {
-            console.error("Error creating progress:", insertError);
+            console.error("Error Creating Progress:", insertError);
             showAlert(
               "Error",
-              "Error: Could not create progress record. Please try again."
+              "Error: Could Not Create Progress Record. Please Try Again."
             );
             return;
           }
-          console.log("Successfully created progress");
         }
 
-        // Refresh progress data
-        console.log("Refreshing world data");
         await fetchWorldData();
 
-        // Close the dialog
         setShowVideoDialog(false);
 
-        // Show success message
         showAlert(
           "Video Completed! ✅",
-          "You've successfully watched the video. You can now take the quiz!",
+          "You've Successfully Watched the Video. You Can Now Take the Quiz!",
           "success"
         );
       }
     } catch (error) {
-      console.error("Error updating video progress:", error);
+      console.error("Error Updating Video Progress:", error);
       showAlert(
         "Error",
-        "An unexpected error occurred. Please try again.",
+        "An Unexpected Error Occurred. Please Try Again.",
         "error"
       );
     } finally {
@@ -500,10 +486,8 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
     if (!quiz) return;
 
     try {
-      // Set the selected realm for quiz operations
       setSelectedRealm(realm);
 
-      // Fetch quiz questions
       const { data: questionsData } = await supabase
         .from("quiz_questions")
         .select("*")
@@ -511,7 +495,6 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
         .order("order_index");
 
       if (questionsData) {
-        // Transform the data to ensure options is string[]
         const transformedQuestions = questionsData.map((q) => ({
           ...q,
           options: Array.isArray(q.options)
@@ -531,7 +514,7 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
         setShowQuizDialog(true);
       }
     } catch (error) {
-      console.error("Error fetching quiz questions:", error);
+      console.error("Error Fetching Quiz Questions:", error);
     }
   };
 
@@ -541,7 +524,6 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
     const currentQuestion = quizQuestions[currentQuestionIndex];
     const isCorrect = selectedAnswer === currentQuestion.correct_answer;
 
-    // Update answers array
     const newAnswers = [...quizAnswers];
     newAnswers[currentQuestionIndex] = selectedAnswer;
     setQuizAnswers(newAnswers);
@@ -554,14 +536,12 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
       setCurrentQuestionIndex((prev) => prev + 1);
       setSelectedAnswer("");
     } else {
-      // Quiz completed - calculate final results
       const finalScore = isCorrect
         ? quizScore + currentQuestion.points
         : quizScore;
       const totalPoints = quizQuestions.reduce((sum, q) => sum + q.points, 0);
       const percentage = Math.round((finalScore / totalPoints) * 100);
 
-      // Collect wrong answers for review
       const wrongAnswers = quizQuestions
         .map((q, index) => {
           const userAnswer = newAnswers[index] || "";
@@ -570,7 +550,7 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
               question: q.question_text,
               userAnswer: userAnswer,
               correctAnswer: q.correct_answer,
-              explanation: q.explanation || "No explanation available",
+              explanation: q.explanation || "No Explanation Available",
             };
           }
           return null;
@@ -590,7 +570,7 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
 
   const handleQuizComplete = async (score: number) => {
     if (!currentQuiz || !selectedRealm || !user) {
-      console.error("Missing required data for quiz completion:", {
+      console.error("Missing Required Data for Quiz Completion:", {
         currentQuiz,
         selectedRealm,
         user,
@@ -599,14 +579,13 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
     }
 
     setIsUpdatingProgress(true);
-    console.log("Starting quiz completion process:", {
+    console.log("Starting Quiz Completion Process:", {
       score,
       realmId: selectedRealm.id,
       quizId: currentQuiz.id,
     });
 
     try {
-      // Fetch user profile
       const { data: profileData, error: profileError } = await supabase
         .from("profiles")
         .select("id")
@@ -614,40 +593,33 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
         .single();
 
       if (profileError) {
-        console.error("Error fetching profile:", profileError);
+        console.error("Error Fetching Profile:", profileError);
         showAlert(
           "Error",
-          "Could not fetch user profile. Please try again.",
+          "Could Not Fetch User Profile. Please Try Again.",
           "error"
         );
         return;
       }
 
       if (!profileData) {
-        console.error("No profile data found for user:", user.id);
+        console.error("No Profile Data Found for User:", user.id);
         showAlert(
           "Error",
-          "User profile not found. Please try again.",
+          "User Profile Not Found. Please Try Again.",
           "error"
         );
         return;
       }
 
-      console.log("Profile data:", profileData);
-
-      // Find existing progress
       const existingProgress = progress.find(
         (p) => p.realm_id === selectedRealm.id
       );
 
-      console.log("Existing progress:", existingProgress);
-
-      // Calculate completion status
       const isPassed = score >= currentQuiz.passing_score;
       const pointsEarned = isPassed ? currentQuiz.points_reward : 0;
       const isCompleted = existingProgress?.video_watched && isPassed;
 
-      // Calculate new values
       const currentAttempts = existingProgress?.quiz_attempts || 0;
       const newAttempts = currentAttempts + 1;
       const currentBestScore = existingProgress?.quiz_best_score || 0;
@@ -657,7 +629,7 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
         ? currentPointsEarned + pointsEarned
         : currentPointsEarned;
 
-      console.log("Quiz completion calculations:", {
+      console.log("Quiz Completion Calculations:", {
         score,
         passingScore: currentQuiz.passing_score,
         isPassed,
@@ -674,8 +646,6 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
       let updateResult;
 
       if (existingProgress) {
-        console.log("Updating existing progress record");
-
         const updateData = {
           quiz_completed: true,
           quiz_score: score,
@@ -688,8 +658,6 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
           updated_at: new Date().toISOString(),
         };
 
-        console.log("Update data:", updateData);
-
         const { data, error } = await supabase
           .from("student_progress")
           .update(updateData)
@@ -697,20 +665,16 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
           .select();
 
         if (error) {
-          console.error("Error updating progress:", error);
+          console.error("Error Updating Progress:", error);
           showAlert(
             "Error",
-            `Could not update progress. ${error.message}`,
+            `Could Not Update Progress. ${error.message}`,
             "error"
           );
           return;
         }
-
         updateResult = data;
-        console.log("Successfully updated progress:", data);
       } else {
-        console.log("Creating new progress record");
-
         const insertData = {
           student_id: profileData.id,
           realm_id: selectedRealm.id,
@@ -724,38 +688,30 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
           points_earned: pointsEarned,
         };
 
-        console.log("Insert data:", insertData);
-
         const { data, error } = await supabase
           .from("student_progress")
           .insert(insertData)
           .select();
 
         if (error) {
-          console.error("Error creating progress:", error);
+          console.error("Error Creating Progress:", error);
           showAlert(
             "Error",
-            `Could not create progress record. ${error.message}`,
+            `Could Not Create Progress Record. ${error.message}`,
             "error"
           );
           return;
         }
-
         updateResult = data;
-        console.log("Successfully created progress:", data);
       }
 
-      // Refresh world data to update UI
-      console.log("Refreshing world data");
       await fetchWorldData();
 
-      // Close quiz dialog and reset state
       setShowQuizDialog(false);
       setQuizCompleted(false);
       setQuizResults(null);
       setQuizAnswers([]);
 
-      // Show success message with retry information
       if (isPassed) {
         showAlert(
           "Congratulations! 🎉",

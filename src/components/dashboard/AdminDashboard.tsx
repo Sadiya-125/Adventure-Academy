@@ -46,6 +46,7 @@ import {
   Target,
   Award,
   PlusIcon,
+  Sparkles,
 } from "lucide-react";
 import {
   BarChart,
@@ -345,6 +346,12 @@ export const AdminDashboard = () => {
 
         if (realmsData && studentProgressData) {
           realmsData.forEach((realm: any) => {
+            let name = realm.name;
+            if (name.includes(":")) {
+              const parts = name.split(":");
+              name = parts[0].trim();
+            }
+
             const realmProgress = studentProgressData.filter(
               (progress: any) => progress.realm_id === realm.id
             );
@@ -364,14 +371,16 @@ export const AdminDashboard = () => {
                 (completedProgress.length / realmProgress.length) * 100;
 
               quizPerformance.push({
-                realmName: realm.name,
+                realmName: name,
                 averageScore: Math.round(averageScore),
                 completionRate: Math.round(completionRate),
               });
             }
           });
 
-          // Calculate time spent and points for each student
+          quizPerformance.sort((a, b) => b.averageScore - a.averageScore);
+          quizPerformance.splice(5);
+
           const studentMap = new Map();
           studentProgressData.forEach((progress: any) => {
             if (progress.is_completed && progress.completed_at) {
@@ -379,13 +388,12 @@ export const AdminDashboard = () => {
                 totalTime: 0,
                 points: 0,
               };
-              existing.totalTime += 15; // 15 minutes per completed realm
+              existing.totalTime += 15;
               existing.points += progress.points_earned || 0;
               studentMap.set(progress.student_id, existing);
             }
           });
 
-          // Get student names and create time spent data
           if (profilesData) {
             studentMap.forEach((data, studentId) => {
               const student = profilesData.find((p: any) => p.id === studentId);
@@ -400,7 +408,6 @@ export const AdminDashboard = () => {
           }
         }
 
-        // Calculate overall analytics
         const totalPointsEarned = studentProgressData.reduce(
           (sum: number, progress: any) => sum + (progress.points_earned || 0),
           0
@@ -432,11 +439,11 @@ export const AdminDashboard = () => {
           quizPerformance,
           timeSpentData: timeSpentData
             .sort((a, b) => b.points - a.points)
-            .slice(0, 10), // Top 10 students
+            .slice(0, 10),
         }));
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error Fetching Data:", error);
     } finally {
       setLoading(false);
     }
@@ -859,7 +866,7 @@ export const AdminDashboard = () => {
                   <CardTitle>🎯 Quick Actions</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     <CreateWorldDialog
                       onWorldCreated={() => fetchData()}
                       onSubmitWorld={createWorld}
@@ -904,6 +911,16 @@ export const AdminDashboard = () => {
                         Create Quiz Questions
                       </Button>
                     </CreateQuizQuestionsDialog>
+
+                    <CreateWorldWithAIDialog
+                      worlds={worlds}
+                      onWorldCreated={() => fetchData()}
+                    >
+                      <Button variant="magical" className="h-20 flex-col">
+                        <Sparkles className="w-20 h-20" strokeWidth={4} />
+                        Create World with AI
+                      </Button>
+                    </CreateWorldWithAIDialog>
                   </div>
                 </CardContent>
               </Card>
@@ -1783,7 +1800,7 @@ export const AdminDashboard = () => {
                         <XAxis
                           dataKey="realmName"
                           interval={0}
-                          height={40}
+                          height={50}
                           tick={(props) => {
                             const { x, y, payload } = props;
                             return (
@@ -1791,7 +1808,7 @@ export const AdminDashboard = () => {
                                 x={x}
                                 y={y + 10}
                                 textAnchor="middle"
-                                fontSize={12}
+                                fontSize={13}
                               >
                                 {payload.value.split(" ").map((word, index) => (
                                   <tspan
@@ -1852,7 +1869,7 @@ export const AdminDashboard = () => {
                         <YAxis
                           type="category"
                           dataKey="studentName"
-                          width={100}
+                          width={165}
                           tick={{ fontSize: 15 }}
                         />
                         <Tooltip
@@ -3460,6 +3477,277 @@ const EditQuizQuestionDialog = ({
             {loading ? "Updating..." : "💾 Save Changes"}
           </Button>
         </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+const CreateWorldWithAIDialog = ({
+  children,
+  worlds,
+  onWorldCreated,
+}: {
+  children: React.ReactNode;
+  worlds: World[];
+  onWorldCreated: () => void;
+}) => {
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState({
+    name: "",
+    description: "",
+    emoji: "",
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const { checkAPIKeys } = await import("@/lib/config");
+      const apiKeyCheck = checkAPIKeys();
+
+      if (!apiKeyCheck.isValid) {
+        toast({
+          title: "❌ Missing API Keys",
+          description: `Please Set the Following Environment Variables: ${apiKeyCheck.missingKeys.join(
+            ", "
+          )}`,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const { generateWorldWithAI } = await import("@/lib/ai-utils");
+
+      const aiContent = await generateWorldWithAI(form);
+
+      const { data: world, error: worldError } = await supabase
+        .from("worlds")
+        .insert({
+          name: form.name,
+          description: form.description,
+          emoji: form.emoji,
+          order_index: worlds.length + 1,
+          is_active: true,
+        })
+        .select()
+        .single();
+
+      if (worldError) {
+        throw new Error("Failed to Create World");
+      }
+
+      const createdRealms = [];
+      for (const realmData of aiContent.realms) {
+        const { data: realm, error: realmError } = await supabase
+          .from("realms")
+          .insert({
+            world_id: world.id,
+            name: realmData.name,
+            description: realmData.description,
+            emoji: realmData.emoji,
+            order_index: parseInt(realmData.order_index),
+            video_url: realmData.video_url || null,
+            video_title: realmData.video_title || null,
+            is_active: true,
+          })
+          .select()
+          .single();
+
+        if (realmError) {
+          console.error("Error Creating Realm:", realmError);
+          continue;
+        }
+        createdRealms.push(realm);
+      }
+
+      let totalQuizzesCreated = 0;
+      let totalQuestionsCreated = 0;
+
+      for (
+        let i = 0;
+        i < createdRealms.length && i < aiContent.realmQuizzes.length;
+        i++
+      ) {
+        const realm = createdRealms[i];
+        const realmQuizData = aiContent.realmQuizzes[i];
+
+        if (realmQuizData && realmQuizData.quiz) {
+          const { data: quiz, error: quizError } = await supabase
+            .from("quizzes")
+            .insert({
+              realm_id: realm.id,
+              title: realmQuizData.quiz.title,
+              description: realmQuizData.quiz.description,
+              total_questions: parseInt(realmQuizData.quiz.total_questions),
+              passing_score: parseInt(realmQuizData.quiz.passing_score),
+              points_reward: parseInt(realmQuizData.quiz.points_reward),
+            })
+            .select()
+            .single();
+
+          if (quizError) {
+            console.error(
+              `Error Creating Quiz for Realm ${realm.name}:`,
+              quizError
+            );
+            continue;
+          }
+
+          totalQuizzesCreated++;
+
+          if (
+            realmQuizData.quizQuestions &&
+            realmQuizData.quizQuestions.length > 0
+          ) {
+            const quizQuestionsData = realmQuizData.quizQuestions.map(
+              (q: {
+                question_text: string;
+                question_type: string;
+                options: string[];
+                correct_answer: string;
+                explanation: string;
+                order_index: string;
+                points: string;
+              }) => {
+                let finalOptions = q.options;
+                let finalCorrectAnswer = q.correct_answer;
+
+                if (q.question_type === "true_false") {
+                  finalOptions = ["True", "False"];
+                  if (!["True", "False"].includes(q.correct_answer)) {
+                    finalCorrectAnswer = "True";
+                  }
+                }
+
+                return {
+                  quiz_id: quiz.id,
+                  question_text: q.question_text,
+                  question_type: q.question_type as "mcq" | "true_false",
+                  options: finalOptions,
+                  correct_answer: finalCorrectAnswer,
+                  explanation: q.explanation,
+                  order_index: parseInt(q.order_index),
+                  points: parseInt(q.points),
+                };
+              }
+            );
+
+            const { error: questionsError } = await supabase
+              .from("quiz_questions")
+              .insert(quizQuestionsData);
+
+            if (questionsError) {
+              console.error(
+                `Error Creating Quiz Questions for Realm ${realm.name}:`,
+                questionsError
+              );
+            } else {
+              totalQuestionsCreated += realmQuizData.quizQuestions.length;
+            }
+          }
+        }
+      }
+
+      toast({
+        title: "🎉 World Created with AI!",
+        description: `Successfully Created "${form.name}" with ${createdRealms.length} Realms, ${totalQuizzesCreated} Quizzes, and ${totalQuestionsCreated} Quiz Questions.`,
+      });
+
+      setForm({ name: "", description: "", emoji: "" });
+      setOpen(false);
+      onWorldCreated();
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Failed to Create World with AI";
+      toast({
+        title: "❌ Error",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent className="sm:max-w-[500px] max-h-[95vh] flex flex-col">
+        <DialogHeader className="shrink-0">
+          <DialogTitle>🤖 Create World with AI</DialogTitle>
+          <DialogDescription>
+            Use AI Magic to Unlock a Fresh World of Learning Adventures for
+            Students
+          </DialogDescription>
+        </DialogHeader>
+        <div className="overflow-y-auto px-1 pr-2 space-y-4">
+          <div className="bg-muted/50 p-4 rounded-lg">
+            <h4 className="font-medium mb-2">⚙️ What AI will Generate:</h4>
+            <ul className="text-sm space-y-1 text-muted-foreground">
+              <li>• 3 Educational Realms with Descriptions and Emojis</li>
+              <li>• 1 Quiz for Each Realm (3 Total Quizzes)</li>
+              <li>• 4 Quiz Questions per Quiz (12 Total Questions)</li>
+            </ul>
+          </div>
+          <form id="aiWorldForm" onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <Label htmlFor="ai_world_name">World Name</Label>
+              <div className="mb-1"></div>
+              <Input
+                id="ai_world_name"
+                value={form.name}
+                onChange={(e) =>
+                  setForm((p) => ({ ...p, name: e.target.value }))
+                }
+                placeholder="World of Time"
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="ai_world_description">Description</Label>
+              <div className="mb-1"></div>
+              <Textarea
+                id="ai_world_description"
+                value={form.description}
+                onChange={(e) =>
+                  setForm((p) => ({ ...p, description: e.target.value }))
+                }
+                placeholder="Learn About Time Management and Scheduling"
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="ai_world_emoji">Emoji</Label>
+              <div className="mb-1"></div>
+              <Input
+                id="ai_world_emoji"
+                value={form.emoji}
+                onChange={(e) =>
+                  setForm((p) => ({ ...p, emoji: e.target.value }))
+                }
+                placeholder="⏰"
+                required
+              />
+            </div>
+            <div className="mb-1"></div>
+          </form>
+        </div>
+
+        <div className="mt-4 shrink-0">
+          <Button
+            type="submit"
+            form="aiWorldForm"
+            variant="outline"
+            className="w-full"
+            disabled={loading}
+          >
+            {loading ? "🤖 AI is Working..." : "🚀 Create World with AI"}
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   );

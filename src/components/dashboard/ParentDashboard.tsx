@@ -285,7 +285,7 @@ export const ParentDashboard = () => {
     if (!searchEmail.trim()) {
       toast({
         title: "Missing Email",
-        description: "Please enter an email address to search.",
+        description: "Please Enter an Email Address to Search.",
         variant: "destructive",
       });
       return;
@@ -313,15 +313,15 @@ export const ParentDashboard = () => {
         setSearchResults([]);
         toast({
           title: "No Profile Found",
-          description: "No student profile found with this email address.",
+          description: "No Student Profile Found with this Email Address.",
           variant: "destructive",
         });
       }
     } catch (error) {
-      console.error("Error searching profiles:", error);
+      console.error("Error Searching Profiles:", error);
       toast({
         title: "Search Error",
-        description: "An error occurred while searching for profiles.",
+        description: "An Error Occurred while Searching for Profiles.",
         variant: "destructive",
       });
     } finally {
@@ -333,7 +333,6 @@ export const ParentDashboard = () => {
     if (!user) return;
 
     try {
-      // Get parent profile ID
       const { data: parentProfile } = await supabase
         .from("profiles")
         .select("id")
@@ -341,10 +340,9 @@ export const ParentDashboard = () => {
         .single();
 
       if (!parentProfile) {
-        throw new Error("Parent profile not found");
+        throw new Error("Parent Profile Not Found");
       }
 
-      // Update the student profile with parent_id and set as active
       const { error } = await supabase
         .from("profiles")
         .update({
@@ -359,7 +357,7 @@ export const ParentDashboard = () => {
 
       toast({
         title: "Child Added Successfully!",
-        description: `${addChildForm.full_name} has been added to your family.`,
+        description: `${addChildForm.full_name} has been Added to your Family.`,
       });
 
       // Reset form and close dialog
@@ -375,11 +373,11 @@ export const ParentDashboard = () => {
       // Refresh data
       await fetchData();
     } catch (error) {
-      console.error("Error adding child:", error);
+      console.error("Error Adding Child:", error);
       toast({
         title: "Error Adding Child",
         description:
-          error instanceof Error ? error.message : "An error occurred",
+          error instanceof Error ? error.message : "An Error Occurred",
         variant: "destructive",
       });
     }
@@ -389,7 +387,7 @@ export const ParentDashboard = () => {
     if (!editingChild || !editForm.full_name.trim()) {
       toast({
         title: "Missing Information",
-        description: "Please fill in all required fields.",
+        description: "Please Fill in all Required Fields.",
         variant: "destructive",
       });
       return;
@@ -420,10 +418,10 @@ export const ParentDashboard = () => {
       // Refresh data
       await fetchData();
     } catch (error) {
-      console.error("Error updating child:", error);
+      console.error("Error Updating Child:", error);
       toast({
         title: "Update Failed",
-        description: "Failed to update child information. Please try again.",
+        description: "Failed to Update Child Information. Please Try Again.",
         variant: "destructive",
       });
     } finally {
@@ -442,16 +440,16 @@ export const ParentDashboard = () => {
 
       toast({
         title: "Child Removed",
-        description: "Child has been removed from your family.",
+        description: "Child has been Removed from your Family.",
       });
 
       // Refresh data
       await fetchData();
     } catch (error) {
-      console.error("Error removing child:", error);
+      console.error("Error Removing Child:", error);
       toast({
         title: "Error Removing Child",
-        description: "Failed to remove child. Please try again.",
+        description: "Failed to Remove Child. Please Try Again.",
         variant: "destructive",
       });
     }
@@ -480,12 +478,12 @@ export const ParentDashboard = () => {
 
       toast({
         title: "Time Limit Updated",
-        description: `${limitType} time limit has been updated successfully.`,
+        description: `${limitType} Time Limit has been Updated Successfully.`,
       });
     } else {
       toast({
         title: "Update Failed",
-        description: "Failed to update time limit. Please try again.",
+        description: "Failed to Update Time Limit. Please Try Again.",
         variant: "destructive",
       });
     }
@@ -509,15 +507,15 @@ export const ParentDashboard = () => {
 
       toast({
         title: isActive ? "Access Unlocked" : "Access Locked",
-        description: `Child's access has been ${
-          isActive ? "unlocked" : "locked"
+        description: `Child's Access has been ${
+          isActive ? "Unlocked" : "Locked"
         }.`,
       });
     } catch (error) {
-      console.error("Error toggling child access:", error);
+      console.error("Error Toggling Child Access:", error);
       toast({
         title: "Update Failed",
-        description: "Failed to update child access. Please try again.",
+        description: "Failed to Update Child Access. Please Try Again.",
         variant: "destructive",
       });
     }

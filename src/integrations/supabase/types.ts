@@ -14,58 +14,6 @@ export type Database = {
   };
   public: {
     Tables: {
-      activity_log: {
-        Row: {
-          activity_type: string;
-          badge_id: string | null;
-          created_at: string;
-          details: Json | null;
-          id: string;
-          realm_id: string | null;
-          student_id: string;
-        };
-        Insert: {
-          activity_type: string;
-          badge_id?: string | null;
-          created_at?: string;
-          details?: Json | null;
-          id?: string;
-          realm_id?: string | null;
-          student_id: string;
-        };
-        Update: {
-          activity_type?: string;
-          badge_id?: string | null;
-          created_at?: string;
-          details?: Json | null;
-          id?: string;
-          realm_id?: string | null;
-          student_id?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "activity_log_badge_id_fkey";
-            columns: ["badge_id"];
-            isOneToOne: false;
-            referencedRelation: "badges";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "activity_log_realm_id_fkey";
-            columns: ["realm_id"];
-            isOneToOne: false;
-            referencedRelation: "realms";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "activity_log_student_id_fkey";
-            columns: ["student_id"];
-            isOneToOne: false;
-            referencedRelation: "profiles";
-            referencedColumns: ["id"];
-          }
-        ];
-      };
       badges: {
         Row: {
           created_at: string;
@@ -292,38 +240,6 @@ export type Database = {
             columns: ["world_id"];
             isOneToOne: false;
             referencedRelation: "worlds";
-            referencedColumns: ["id"];
-          }
-        ];
-      };
-      screen_time: {
-        Row: {
-          date: string;
-          id: string;
-          last_activity: string;
-          minutes_spent: number;
-          student_id: string;
-        };
-        Insert: {
-          date?: string;
-          id?: string;
-          last_activity?: string;
-          minutes_spent?: number;
-          student_id: string;
-        };
-        Update: {
-          date?: string;
-          id?: string;
-          last_activity?: string;
-          minutes_spent?: number;
-          student_id?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "screen_time_student_id_fkey";
-            columns: ["student_id"];
-            isOneToOne: false;
-            referencedRelation: "profiles";
             referencedColumns: ["id"];
           }
         ];
