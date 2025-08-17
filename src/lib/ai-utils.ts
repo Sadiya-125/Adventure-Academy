@@ -187,7 +187,7 @@ export async function searchYoutube(searchQuery: string) {
 export async function getTranscript(videoId: string) {
   try {
     const { data } = await axios.get(
-      `http://localhost:5000/api/transcript/${videoId}`
+      `https://adventure-academy-server.onrender.com/api/transcript/${videoId}`
     );
     return data.transcript;
   } catch (error) {
