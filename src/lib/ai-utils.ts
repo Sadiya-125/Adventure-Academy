@@ -212,6 +212,7 @@ export async function getQuestionsFromTranscript(
     options:
     - For MCQs: Provide 4 Options.
     - For True/False: Options must be ["True", "False"].
+    correct_answer: Must be One of the Options Provided.
     order_index: Must be in Ascending Order starting from 1.`,
 
     `Generate a Random Question Related to the Course "${course_title}" using the Context of the Following Transcript: ${transcript}`,
@@ -366,6 +367,7 @@ export async function generateWorldWithAI(worldData: {
           options:
           - For MCQs: Provide 4 Options.
           - For True/False: Options must be ["True", "False"].
+          correct_answer: Must be One of the Options Provided.
           order_index: Must be in Ascending Order starting from 1.`,
 
           `Create 4 Questions for the Quiz: ${quiz.title} - ${quiz.description}`,
