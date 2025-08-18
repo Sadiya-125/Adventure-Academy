@@ -200,12 +200,10 @@ export async function getQuestionsFromTranscript(
   transcript: string,
   course_title: string
 ) {
-  const questionTypes = ["mcq", "true_false"];
-
   const questions: unknown[] = await strict_output(
     `You are a Helpful AI that Generates Quiz Questions and Answers. Follow the Exact Schema below to Generate 4 Questions in Total:
-    - Exactly 2 multiple-choice questions (MCQ)
-    - Exactly 2 true/false questions
+    - Exactly 2 Multiple-Choice Questions (MCQ)
+    - Exactly 2 True/False Questions
 
     Schema Requirements:
     question_text: The Text of the Question.
@@ -214,17 +212,16 @@ export async function getQuestionsFromTranscript(
     - For MCQs: Provide 4 Options.
     - For True/False: Options must be ["True", "False"].
     order_index: Must be in Ascending Order starting from 1.`,
-    new Array(4).fill(
-      `Generate a Random Question Related to the Course "${course_title}" using the Context of the Following Transcript: ${transcript}`
-    ),
+
+    `Generate a Random Question Related to the Course "${course_title}" using the Context of the Following Transcript: ${transcript}`,
     {
-      question_text: "string",
-      question_type: questionTypes,
-      options: "array",
-      correct_answer: "string",
-      explanation: "string",
-      order_index: "string",
-      points: "string",
+      question_texts: "array",
+      question_types: "array",
+      options_arrays: "array",
+      correct_answers: "array",
+      explanations: "array",
+      order_indices: "array",
+      points_values: "array",
     }
   );
 
@@ -336,12 +333,17 @@ export async function generateWorldWithAI(worldData: {
         try {
           const videoId = realm.video_url.split("v=")[1];
           const transcript = await getTranscript(videoId);
+          console.log(`Transcript Fetched: ${transcript}`);
           if (transcript) {
             quizQuestions = await getQuestionsFromTranscript(
               transcript,
               realm.name
             );
           }
+          console.log(
+            `Quiz Questions Generated for Realm ${realm.name}:`,
+            quizQuestions
+          );
         } catch (error) {
           console.error(
             `Error Getting Transcript for Realm ${realm.name}:`,
@@ -353,8 +355,8 @@ export async function generateWorldWithAI(worldData: {
       if (!quizQuestions) {
         quizQuestions = await strict_output(
           `You are a Helpful AI that Generates Quiz Questions and Answers. Follow the Exact Schema below to Generate 4 Questions in Total:
-          - Exactly 2 multiple-choice questions (MCQ)
-          - Exactly 2 true/false questions
+          - Exactly 2 Multiple-Choice Questions (MCQ)
+          - Exactly 2 True/False Questions
 
           Schema Requirements:
           question_text: The Text of the Question.
