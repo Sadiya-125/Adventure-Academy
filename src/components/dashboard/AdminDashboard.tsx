@@ -967,7 +967,7 @@ export const AdminDashboard = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      {users.slice(0, 5).map((user) => (
+                      {users.map((user) => (
                         <div
                           key={user.id}
                           className="flex items-center justify-between p-3 bg-muted/50 rounded-lg"
