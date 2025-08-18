@@ -201,7 +201,8 @@ export async function getQuestionsFromTranscript(
   course_title: string
 ) {
   const questions: unknown[] = await strict_output(
-    `You are a Helpful AI that Generates Quiz Questions and Answers. Follow the Exact Schema below to Generate 4 Questions in Total:
+    `You are a Helpful AI that Generates Quiz Questions and Answers. Ensure that Each Question is Educational, Suitable for Students aged 8 to 14, and Designed to Support Learning through YouTube Videos.
+    Follow the Exact Schema below to Generate 4 Questions in Total:
     - Exactly 2 Multiple-Choice Questions (MCQ)
     - Exactly 2 True/False Questions
 
@@ -354,7 +355,8 @@ export async function generateWorldWithAI(worldData: {
 
       if (!quizQuestions) {
         quizQuestions = await strict_output(
-          `You are a Helpful AI that Generates Quiz Questions and Answers. Follow the Exact Schema below to Generate 4 Questions in Total:
+          `You are a Helpful AI that Generates Quiz Questions and Answers. Ensure that Each Question is Educational, Suitable for Students aged 8 to 14, and Designed to Support Learning through YouTube Videos.
+          Follow the Exact Schema below to Generate 4 Questions in Total:
           - Exactly 2 Multiple-Choice Questions (MCQ)
           - Exactly 2 True/False Questions
 
