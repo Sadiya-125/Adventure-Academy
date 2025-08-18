@@ -360,7 +360,6 @@ export const ParentDashboard = () => {
         description: `${addChildForm.full_name} has been Added to your Family.`,
       });
 
-      // Reset form and close dialog
       setAddChildForm({
         full_name: "",
         email: "",
@@ -370,7 +369,6 @@ export const ParentDashboard = () => {
       setSearchResults([]);
       setSearchEmail("");
 
-      // Refresh data
       await fetchData();
     } catch (error) {
       console.error("Error Adding Child:", error);
@@ -410,12 +408,10 @@ export const ParentDashboard = () => {
         description: `${editForm.full_name}'s Information has been Updated.`,
       });
 
-      // Reset form and close dialog
       setEditForm({ full_name: "", class_level: 2 });
       setShowEditChild(false);
       setEditingChild(null);
 
-      // Refresh data
       await fetchData();
     } catch (error) {
       console.error("Error Updating Child:", error);
@@ -443,7 +439,6 @@ export const ParentDashboard = () => {
         description: "Child has been Removed from your Family.",
       });
 
-      // Refresh data
       await fetchData();
     } catch (error) {
       console.error("Error Removing Child:", error);
@@ -469,7 +464,6 @@ export const ParentDashboard = () => {
       .eq("id", childId);
 
     if (!error) {
-      // Update local state
       setChildren((prev) =>
         prev.map((child) =>
           child.id === childId ? { ...child, [column]: newLimit } : child
@@ -478,7 +472,9 @@ export const ParentDashboard = () => {
 
       toast({
         title: "Time Limit Updated",
-        description: `${limitType} Time Limit has been Updated Successfully.`,
+        description: `${
+          limitType.charAt(0).toUpperCase() + limitType.slice(1)
+        } Time Limit has been Updated Successfully.`,
       });
     } else {
       toast({
