@@ -889,7 +889,6 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
 
                   {/* Action Buttons */}
                   <div className="space-y-2">
-                    {/* Video Button - Always shown */}
                     <Button
                       variant={isVideoUnlocked(realm) ? "magical" : "outline"}
                       size="sm"
@@ -922,7 +921,6 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
                       )}
                     </Button>
 
-                    {/* Quiz Button - Always shown, but locked until video is watched */}
                     <Button
                       variant={
                         realmProgress?.video_watched ? "quest" : "outline"
@@ -1031,10 +1029,9 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
 
       {/* Quiz Dialog */}
       <Dialog open={showQuizDialog} onOpenChange={setShowQuizDialog}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <Brain className="w-5 h-5" />
               {currentQuiz?.title}
             </DialogTitle>
           </DialogHeader>
