@@ -249,7 +249,6 @@ export const ParentDashboard = () => {
       const todayTimeSpent = todayProgress.length * 15;
       const weeklyTimeSpent = weeklyProgress.length * 15;
 
-      // Generate recent activity
       const recentActivity = totalProgress.slice(0, 5).map((progress) => ({
         type: progress.is_completed
           ? ("realm_completed" as const)
@@ -1392,7 +1391,7 @@ export const ParentDashboard = () => {
       <Dialog open={showChildDetails} onOpenChange={setShowChildDetails}>
         <DialogContent className="sm:max-w-2xl [&>button]:hidden">
           <DialogHeader>
-            <DialogTitle className="flex items-center text-xl font-bold gap-2">
+            <DialogTitle className="flex items-center text-xl font-bold gap-0.5">
               <Eye className="w-5 h-5 shrink-0" />
               {selectedChild?.full_name}'s Detailed Progress
             </DialogTitle>
@@ -1404,7 +1403,7 @@ export const ParentDashboard = () => {
                 {getChildProgress(selectedChild.id)?.stats &&
                   Object.entries(getChildProgress(selectedChild.id)!.stats).map(
                     ([key, value], index, arr) => {
-                      const isLast = key.toLowerCase().includes("last"); // or key === "lastActivity"
+                      const isLast = key.toLowerCase().includes("last");
                       return (
                         <div
                           key={key}
