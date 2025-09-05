@@ -1191,7 +1191,9 @@ export const AdminDashboard = () => {
                                     disabled={updatingUserId === user.id}
                                   >
                                     <Unlock className="w-4 h-4 mr-1 xs:mr-2" />
-                                    <span className="truncate">Unlock Access</span>
+                                    <span className="truncate">
+                                      Unlock Access
+                                    </span>
                                   </Button>
                                 ) : (
                                   <Button
@@ -1204,7 +1206,9 @@ export const AdminDashboard = () => {
                                     disabled={updatingUserId === user.id}
                                   >
                                     <Lock className="w-4 h-4 mr-1 xs:mr-2" />
-                                    <span className="truncate">Lock Access</span>
+                                    <span className="truncate">
+                                      Lock Access
+                                    </span>
                                   </Button>
                                 )}
                               </div>
@@ -1697,8 +1701,12 @@ export const AdminDashboard = () => {
                                                       className="whitespace-nowrap text-sm flex items-center"
                                                     >
                                                       <PlusIcon className="w-4 h-4 mr-1" />
-                                                      <span className="hidden sm:inline">Add Questions</span>
-                                                      <span className="sm:hidden">Add</span>
+                                                      <span className="hidden sm:inline">
+                                                        Add Questions
+                                                      </span>
+                                                      <span className="sm:hidden">
+                                                        Add
+                                                      </span>
                                                     </Button>
                                                   )}
                                                 </CreateQuizQuestionsDialog>
@@ -1787,34 +1795,34 @@ export const AdminDashboard = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="overflow-x-auto">
-                    <ResponsiveContainer width="200%" height={300}>
-                      <AreaChart data={analyticsData.dailyActivity}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis
-                          dataKey="date"
-                          tickFormatter={(value) =>
-                            new Date(value).toLocaleDateString("en-US", {
-                              month: "short",
-                              day: "numeric",
-                            })
-                          }
-                        />
-                        <YAxis />
-                        <Tooltip
-                          labelFormatter={(value) =>
-                            new Date(value).toLocaleDateString()
-                          }
-                          formatter={(value) => [value, "Total Activities"]}
-                        />
-                        <Area
-                          type="monotone"
-                          dataKey="activeStudents"
-                          stroke="#8884d8"
-                          fill="#8884d8"
-                          fillOpacity={0.6}
-                        />
-                      </AreaChart>
-                    </ResponsiveContainer>
+                      <ResponsiveContainer width="200%" height={300}>
+                        <AreaChart data={analyticsData.dailyActivity}>
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis
+                            dataKey="date"
+                            tickFormatter={(value) =>
+                              new Date(value).toLocaleDateString("en-US", {
+                                month: "short",
+                                day: "numeric",
+                              })
+                            }
+                          />
+                          <YAxis />
+                          <Tooltip
+                            labelFormatter={(value) =>
+                              new Date(value).toLocaleDateString()
+                            }
+                            formatter={(value) => [value, "Total Activities"]}
+                          />
+                          <Area
+                            type="monotone"
+                            dataKey="activeStudents"
+                            stroke="#8884d8"
+                            fill="#8884d8"
+                            fillOpacity={0.6}
+                          />
+                        </AreaChart>
+                      </ResponsiveContainer>
                     </div>
                   </CardContent>
                 </Card>
@@ -1881,56 +1889,56 @@ export const AdminDashboard = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="overflow-x-auto">
-                    <ResponsiveContainer width="200%" height={300}>
-                      <BarChart data={analyticsData.quizPerformance}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis
-                          dataKey="realmName"
-                          interval={0}
-                          height={60}
-                          tick={(props) => {
-                            const { x, y, payload } = props;
-                            const fontSize = 13;
-                            
-                            const displayText = payload.value;
-                            const words = displayText.split(" ");
-                            
-                            return (
-                              <text
-                                x={x}
-                                y={y + 10}
-                                textAnchor="middle"
-                                fontSize={fontSize}
-                              >
-                                {words.map((word, index) => (
-                                  <tspan
-                                    key={index}
-                                    x={x}
-                                    dy={index === 0 ? 0 : 12}
-                                  >
-                                    {word}
-                                  </tspan>
-                                ))}
-                              </text>
-                            );
-                          }}
-                        />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend wrapperStyle={{ fontSize: '14px' }} />
-                        <Bar
-                          dataKey="averageScore"
-                          fill="#8884d8"
-                          name="Avg Score (%)"
-                        />
-                        <Bar
-                          dataKey="completionRate"
-                          fill="#82ca9d"
-                          name="Completion Rate (%)"
-                        />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </div>
+                      <ResponsiveContainer width="200%" height={300}>
+                        <BarChart data={analyticsData.quizPerformance}>
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis
+                            dataKey="realmName"
+                            interval={0}
+                            height={60}
+                            tick={(props) => {
+                              const { x, y, payload } = props;
+                              const fontSize = 13;
+
+                              const displayText = payload.value;
+                              const words = displayText.split(" ");
+
+                              return (
+                                <text
+                                  x={x}
+                                  y={y + 10}
+                                  textAnchor="middle"
+                                  fontSize={fontSize}
+                                >
+                                  {words.map((word, index) => (
+                                    <tspan
+                                      key={index}
+                                      x={x}
+                                      dy={index === 0 ? 0 : 12}
+                                    >
+                                      {word}
+                                    </tspan>
+                                  ))}
+                                </text>
+                              );
+                            }}
+                          />
+                          <YAxis />
+                          <Tooltip />
+                          <Legend wrapperStyle={{ fontSize: "14px" }} />
+                          <Bar
+                            dataKey="averageScore"
+                            fill="#8884d8"
+                            name="Avg Score (%)"
+                          />
+                          <Bar
+                            dataKey="completionRate"
+                            fill="#82ca9d"
+                            name="Completion Rate (%)"
+                          />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
                   </CardContent>
                 </Card>
 
@@ -1944,53 +1952,59 @@ export const AdminDashboard = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="overflow-x-auto">
-                    <ResponsiveContainer width="200%" height={300}>
-                      <BarChart
-                        data={analyticsData.timeSpentData}
-                        layout="vertical"
-                        margin={{ 
-                          top: 10, 
-                          right: 20, 
-                          left: -40, 
-                          bottom: 10 
-                        }}
-                      >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis
-                          type="number"
-                          label={{
-                            value: "Points",
-                            position: "insideBottom",
-                            offset: -5,
+                      <ResponsiveContainer width="200%" height={300}>
+                        <BarChart
+                          data={analyticsData.timeSpentData}
+                          layout="vertical"
+                          margin={{
+                            top: 10,
+                            right: 20,
+                            left: -40,
+                            bottom: 10,
                           }}
-                        />
-                        <YAxis
-                          type="category"
-                          dataKey="studentName"
-                          width={140}
-                          tick={(props) => {
-                            const { x, y, payload } = props;
-                            const fontSize = 14;
-                            const displayText = payload.value;
-                            
-                            return (
-                              <text x={x-5} y={y} textAnchor="end" fontSize={fontSize} dy={3}>
-                                {displayText}
-                              </text>
-                            );
-                          }}
-                        />
-                        <Tooltip
-                          formatter={(value) => [`${value}`, "Points"]}
-                          contentStyle={{ fontSize: '14px' }}
-                        />
-                        <Bar
-                          dataKey="points"
-                          fill="#ffc658"
-                          radius={[5, 5, 5, 5]} // rounded bars
-                        />
-                      </BarChart>
-                    </ResponsiveContainer>
+                        >
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <XAxis
+                            type="number"
+                            label={{
+                              value: "Points",
+                              position: "insideBottom",
+                              offset: -5,
+                            }}
+                          />
+                          <YAxis
+                            type="category"
+                            dataKey="studentName"
+                            width={180}
+                            tick={(props) => {
+                              const { x, y, payload } = props;
+                              const fontSize = 14;
+                              const displayText = payload.value;
+
+                              return (
+                                <text
+                                  x={x - 5}
+                                  y={y}
+                                  textAnchor="end"
+                                  fontSize={fontSize}
+                                  dy={3}
+                                >
+                                  {displayText}
+                                </text>
+                              );
+                            }}
+                          />
+                          <Tooltip
+                            formatter={(value) => [`${value}`, "Points"]}
+                            contentStyle={{ fontSize: "14px" }}
+                          />
+                          <Bar
+                            dataKey="points"
+                            fill="#ffc658"
+                            radius={[5, 5, 5, 5]} // rounded bars
+                          />
+                        </BarChart>
+                      </ResponsiveContainer>
                     </div>
                   </CardContent>
                 </Card>
@@ -2006,60 +2020,60 @@ export const AdminDashboard = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="overflow-x-auto">
-                  <ResponsiveContainer width="200%" height={400}>
-                    <ScatterChart
-                      margin={{
-                        top: 20,
-                        right: 20,
-                        bottom: 20,
-                        left: 20,
-                      }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis
-                        type="number"
-                        dataKey="totalTime"
-                        name="Time Spent (minutes)"
-                        label={{
-                          value: "Time Spent (minutes)",
-                          position: "insideBottom",
-                          offset: -10,
+                    <ResponsiveContainer width="200%" height={400}>
+                      <ScatterChart
+                        margin={{
+                          top: 20,
+                          right: 20,
+                          bottom: 20,
+                          left: 20,
                         }}
-                      />
-                      <YAxis
-                        type="number"
-                        dataKey="points"
-                        name="Points"
-                        label={{
-                          value: "Points Earned",
-                          angle: -90,
-                          position: "insideLeft",
-                        }}
-                      />
-                      <Tooltip
-                        cursor={{ strokeDasharray: "3 3" }}
-                        content={({ payload }) => {
-                          if (!payload || !payload.length) return null;
-                          const { studentName, totalTime, points } =
-                            payload[0].payload;
-                          return (
-                            <div className="bg-white p-2 rounded shadow">
-                              <strong>{studentName}</strong>
-                              <div>Time: {totalTime} min</div>
-                              <div>Points: {points}</div>
-                            </div>
-                          );
-                        }}
-                      />
-                      <Scatter
-                        name="Students"
-                        data={analyticsData.timeSpentData}
-                        fill="#8884d8"
-                        shape="circle"
-                        r={6}
-                      />
-                    </ScatterChart>
-                  </ResponsiveContainer>
+                      >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis
+                          type="number"
+                          dataKey="totalTime"
+                          name="Time Spent (minutes)"
+                          label={{
+                            value: "Time Spent (minutes)",
+                            position: "insideBottom",
+                            offset: -10,
+                          }}
+                        />
+                        <YAxis
+                          type="number"
+                          dataKey="points"
+                          name="Points"
+                          label={{
+                            value: "Points Earned",
+                            angle: -90,
+                            position: "insideLeft",
+                          }}
+                        />
+                        <Tooltip
+                          cursor={{ strokeDasharray: "3 3" }}
+                          content={({ payload }) => {
+                            if (!payload || !payload.length) return null;
+                            const { studentName, totalTime, points } =
+                              payload[0].payload;
+                            return (
+                              <div className="bg-white p-2 rounded shadow">
+                                <strong>{studentName}</strong>
+                                <div>Time: {totalTime} min</div>
+                                <div>Points: {points}</div>
+                              </div>
+                            );
+                          }}
+                        />
+                        <Scatter
+                          name="Students"
+                          data={analyticsData.timeSpentData}
+                          fill="#8884d8"
+                          shape="circle"
+                          r={6}
+                        />
+                      </ScatterChart>
+                    </ResponsiveContainer>
                   </div>
                 </CardContent>
               </Card>
