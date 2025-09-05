@@ -664,23 +664,23 @@ export const ParentDashboard = () => {
                 value="controls"
                 className="data-[state=active]:bg-primary data-[state=active]:text-white text-base px-2 xs:px-3 sm:px-4 py-1.5 xs:py-2 sm:py-2.5 h-auto rounded-md whitespace-nowrap"
               >
-              ⏳ Screen Time Controls
-            </TabsTrigger>
-            <TabsTrigger
-              value="insights"
-              className="data-[state=active]:bg-primary data-[state=active]:text-white text-base px-2 xs:px-3 sm:px-4 py-1.5 xs:py-2 sm:py-2.5 h-auto rounded-md whitespace-nowrap"
-            >
-              <span className="inline-block text-xl">📊</span>{" "}
-              <span className="ml-1 xs:ml-2">Insights</span>
-            </TabsTrigger>
-            <TabsTrigger
-              value="manage"
-              className="data-[state=active]:bg-primary data-[state=active]:text-white text-base px-2 xs:px-3 sm:px-4 py-1.5 xs:py-2 sm:py-2.5 h-auto rounded-md whitespace-nowrap"
-            >
-              <span className="inline-block text-xl">⚙️</span>{" "}
-              <span className="ml-1 xs:ml-2">Manage Children</span>
-            </TabsTrigger>
-          </TabsList>
+                ⏳ Screen Time Controls
+              </TabsTrigger>
+              <TabsTrigger
+                value="insights"
+                className="data-[state=active]:bg-primary data-[state=active]:text-white text-base px-2 xs:px-3 sm:px-4 py-1.5 xs:py-2 sm:py-2.5 h-auto rounded-md whitespace-nowrap"
+              >
+                <span className="inline-block text-xl">📊</span>{" "}
+                <span className="ml-1 xs:ml-2">Insights</span>
+              </TabsTrigger>
+              <TabsTrigger
+                value="manage"
+                className="data-[state=active]:bg-primary data-[state=active]:text-white text-base px-2 xs:px-3 sm:px-4 py-1.5 xs:py-2 sm:py-2.5 h-auto rounded-md whitespace-nowrap"
+              >
+                <span className="inline-block text-xl">⚙️</span>{" "}
+                <span className="ml-1 xs:ml-2">Manage Children</span>
+              </TabsTrigger>
+            </TabsList>
           </div>
           <TabsContent value="children">
             <div className="grid gap-6">
@@ -1392,7 +1392,7 @@ export const ParentDashboard = () => {
       <Dialog open={showChildDetails} onOpenChange={setShowChildDetails}>
         <DialogContent className="sm:max-w-2xl [&>button]:hidden">
           <DialogHeader>
-            <DialogTitle className="flex items-center text-xl font-bold">
+            <DialogTitle className="flex items-center text-xl font-bold gap-2">
               <Eye className="w-5 h-5 shrink-0" />
               {selectedChild?.full_name}'s Detailed Progress
             </DialogTitle>
