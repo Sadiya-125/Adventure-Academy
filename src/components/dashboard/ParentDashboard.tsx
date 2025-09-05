@@ -1101,7 +1101,7 @@ export const ParentDashboard = () => {
                               {activity.points && (
                                 <Badge
                                   variant="secondary"
-                                  className="bg-treasure-gold/20 text-treasure-gold font-bold text-sm px-2 py-1 ml-1 flex items-center gap-1"
+                                  className="bg-treasure-gold/5 text-treasure-gold font-bold text-sm px-2 py-1 ml-1 flex items-center gap-1"
                                 >
                                   <Star className="w-3 h-3" /> {activity.points}
                                 </Badge>
