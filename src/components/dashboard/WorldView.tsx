@@ -770,18 +770,18 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
     <div className="min-h-screen bg-gradient-to-br from-primary/10 to-quest-blue/10">
       {/* Header */}
       <header className="bg-gradient-hero text-white shadow-magical">
-        <div className="container mx-auto px-4 py-6 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+        <div className="container mx-auto px-4 py-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center sm:justify-start gap-3">
             <Button
               variant="outline"
               onClick={onBack}
-              className="border-white text-primary hover:bg-white hover:text-primary"
+              className="border-white text-primary hover:bg-white hover:text-primary px-4"
             >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Worlds
+              <ArrowLeft className="w-4 h-4" />
+              <span className="hidden xs:inline">Back to Worlds</span>
             </Button>
-            <div className="flex items-center space-x-2">
-              <h1 className="text-2xl font-bold">
+            <div className="flex items-center gap-2">
+              <h1 className="text-xl sm:text-2xl font-bold truncate">
                 {world?.emoji} {world?.name}
               </h1>
             </div>
@@ -803,7 +803,7 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
         </Card>
 
         {/* Realms Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {realms.map((realm, index) => {
             const realmProgress = getRealmProgress(realm.id);
             const realmQuiz = getRealmQuiz(realm.id);
@@ -842,7 +842,7 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
                       <Brain className="w-4 h-4" />
                       <span>
                         {realmProgress?.quiz_completed
-                          ? `✅ ${realmProgress.quiz_score}%`
+                          ? `${realmProgress.quiz_score}%`
                           : "❌"}
                       </span>
                     </div>
@@ -978,10 +978,10 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
 
       {/* Video Dialog */}
       <Dialog open={showVideoDialog} onOpenChange={setShowVideoDialog}>
-        <DialogContent className="max-w-4xl">
+        <DialogContent className="max-w-[95vw] sm:max-w-4xl">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Video className="w-5 h-5" />
+            <DialogTitle className="flex items-center gap-1 xs:gap-2">
+              <Video className="w-4 h-4 shrink-0" />
               {selectedRealm?.video_title || "Learning Video"}
             </DialogTitle>
           </DialogHeader>
@@ -1029,7 +1029,7 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
 
       {/* Quiz Dialog */}
       <Dialog open={showQuizDialog} onOpenChange={setShowQuizDialog}>
-        <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-[95vw] sm:max-w-5xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               {currentQuiz?.title}
@@ -1049,9 +1049,9 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
                       <div className="flex items-center gap-2">
                         <Badge variant="secondary">
                           {quizQuestions[currentQuestionIndex]?.points || 1}{" "}
-                          points
+                          Points
                         </Badge>
-                        <div className="w-32 bg-gray-200 rounded-full h-2">
+                        <div className="w-24 sm:w-32 bg-gray-200 rounded-full h-2">
                           <div
                             className="bg-primary h-2 rounded-full transition-all duration-300"
                             style={{
@@ -1067,9 +1067,9 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
                     </div>
 
                     <div className="space-y-4">
-                      <div className="flex items-center gap-2 mb-4">
-                        <Brain className="w-5 h-5 text-primary" />
-                        <h3 className="text-lg font-semibold">
+                      <div className="flex items-start gap-2 mb-4">
+                        <Brain className="w-5 h-5 text-primary mt-1 shrink-0" />
+                        <h3 className="text-lg font-semibold break-words whitespace-normal">
                           {quizQuestions[currentQuestionIndex]?.question_text}
                         </h3>
                       </div>
@@ -1084,16 +1084,18 @@ export const WorldView = ({ worldId, onBack }: WorldViewProps) => {
                                   ? "default"
                                   : "outline"
                               }
-                              className="w-full justify-start text-left h-auto py-3 transition-all duration-200 hover:scale-[1.02]"
+                              className="w-full justify-start text-left h-auto py-3 transition-all duration-200 hover:scale-[1.02] text-sm sm:text-base"
                               onClick={() => setSelectedAnswer(option)}
                             >
-                              <div className="flex items-center gap-3">
-                                <div className="w-6 h-6 rounded-full border-2 border-current flex items-center justify-center text-xs font-bold">
+                              <div className="flex items-start gap-3 break-words">
+                                <div className="min-w-[24px] w-6 h-6 rounded-full border-2 border-current flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
                                   {String.fromCharCode(65 + index)}
                                 </div>
-                                <span className="flex-1">{option}</span>
+                                <span className="flex-1 break-words whitespace-normal">
+                                  {option}
+                                </span>
                                 {selectedAnswer === option && (
-                                  <div className="w-4 h-4 bg-primary rounded-full flex items-center justify-center">
+                                  <div className="w-4 h-4 bg-primary rounded-full flex items-center justify-center shrink-0 mt-0.5">
                                     <div className="w-2 h-2 bg-white rounded-full" />
                                   </div>
                                 )}

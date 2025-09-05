@@ -25,6 +25,7 @@ import {
   Crown as CrownIcon,
   Play,
   Brain,
+  LogOut,
 } from "lucide-react";
 import { WorldView } from "./WorldView";
 import { useToast } from "@/components/ui/use-toast";
@@ -388,21 +389,36 @@ export const StudentDashboard = () => {
     <div className="min-h-screen bg-gradient-to-br from-primary/10 to-quest-blue/10">
       {/* Header */}
       <header className="bg-gradient-hero text-white shadow-magical">
-        <div className="container mx-auto px-4 py-6 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+        <div className="container mx-auto px-4 py-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center justify-between sm:justify-start gap-4">
             <div className="flex items-center space-x-2">
               <CrownIcon className="w-8 h-8 animate-sparkle" />
-              <h1 className="text-2xl font-bold">Adventure Academy</h1>
+              <h1 className="text-xl sm:text-2xl font-bold hidden sm:block">
+                Adventure Academy
+              </h1>
+              <h1 className="text-xl font-bold sm:hidden">Adventure Academy</h1>
+            </div>
+            <div className="sm:hidden flex items-center gap-2">
+              <Button
+                variant="outline"
+                onClick={signOut}
+                className="bg-purple-500 border-purple-700 text-white hover:bg-white hover:text-primary transition-colors duration-300 ease-in-out flex items-center gap-2"
+              >
+                <LogOut className="w-4 h-4" />
+              </Button>
             </div>
           </div>
-          <div className="flex items-center space-x-4">
-            <span className="font-bold">👋 {profile?.full_name}</span>
+          <div className="flex-1 text-left sm:flex sm:items-center sm:gap-4">
+            <h2 className="font-bold ml-1">👨‍🎓 {profile?.full_name}</h2>
+          </div>
+          <div className="hidden sm:flex items-center gap-3 flex-wrap sm:justify-end">
             <Button
               variant="outline"
               onClick={signOut}
-              className="bg-purple-500 border-purple-700 text-white hover:bg-white hover:text-primary transition-colors duration-300 ease-in-out"
+              className="bg-purple-500 border-purple-700 text-white hover:bg-white hover:text-primary transition-colors duration-300 ease-in-out flex items-center gap-2"
             >
-              Logout
+              <LogOut className="w-4 h-4" />
+              <span className="inline">Logout</span>
             </Button>
           </div>
         </div>
@@ -461,29 +477,34 @@ export const StudentDashboard = () => {
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="worlds" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-8">
-            <TabsTrigger
-              value="worlds"
-              className="data-[state=active]:bg-primary data-[state=active]:text-white"
-            >
-              🌍 Explore Worlds
-            </TabsTrigger>
-            <TabsTrigger
-              value="map"
-              className="data-[state=active]:bg-primary data-[state=active]:text-white"
-            >
-              🗺️ Adventure Map
-            </TabsTrigger>
-            <TabsTrigger
-              value="leaderboard"
-              className="data-[state=active]:bg-primary data-[state=active]:text-white"
-            >
-              🏆 Leaderboard
-            </TabsTrigger>
-          </TabsList>
+          <div className="overflow-x-auto no-scrollbar pb-2 -mx-4 px-4 pt-2 sm:pt-3">
+            <TabsList className="w-max sm:w-full mb-4 xs:mb-6 sm:mb-8 flex gap-2 xs:gap-3 sm:gap-4 p-1 xs:p-1.5 sm:p-2 rounded-lg mx-auto sm:mx-0">
+              <TabsTrigger
+                value="worlds"
+                className="data-[state=active]:bg-primary data-[state=active]:text-white text-base px-2 xs:px-3 sm:px-4 py-1.5 xs:py-2 sm:py-2.5 h-auto rounded-md whitespace-nowrap"
+              >
+                <span className="inline-block text-xl">🌍</span>{" "}
+                <span className="ml-1 xs:ml-2">Explore Worlds</span>
+              </TabsTrigger>
+              <TabsTrigger
+                value="map"
+                className="data-[state=active]:bg-primary data-[state=active]:text-white text-base px-2 xs:px-3 sm:px-4 py-1.5 xs:py-2 sm:py-2.5 h-auto rounded-md whitespace-nowrap"
+              >
+                <span className="inline-block text-xl">🗺️</span>{" "}
+                <span className="ml-1 xs:ml-2">Adventure Map</span>
+              </TabsTrigger>
+              <TabsTrigger
+                value="leaderboard"
+                className="data-[state=active]:bg-primary data-[state=active]:text-white text-base px-2 xs:px-3 sm:px-4 py-1.5 xs:py-2 sm:py-2.5 h-auto rounded-md whitespace-nowrap"
+              >
+                <span className="inline-block text-xl">🏆</span>{" "}
+                <span className="ml-1 xs:ml-2">Leaderboard</span>
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
           <TabsContent value="worlds">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {worlds.map((world, index) => {
                 const worldRealms = realms.filter(
                   (r) => r.world_id === world.id
@@ -533,8 +554,12 @@ export const StudentDashboard = () => {
                             </div>
                           )}
                       </div>
-                      <CardTitle className="text-lg">{world.name}</CardTitle>
-                      <CardDescription>{world.description}</CardDescription>
+                      <CardTitle className="text-base sm:text-lg">
+                        {world.name}
+                      </CardTitle>
+                      <CardDescription className="text-sm">
+                        {world.description}
+                      </CardDescription>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-3">
@@ -618,7 +643,7 @@ export const StudentDashboard = () => {
                     return (
                       <div key={world.id} className="space-y-4">
                         {/* World Header */}
-                        <div className="flex items-center justify-between p-4 bg-gradient-to-r from-primary/10 to-quest-blue/10 rounded-lg border-2 border-primary/20">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 bg-gradient-to-r from-primary/10 to-quest-blue/10 rounded-lg border-2 border-primary/20">
                           <div className="flex items-center gap-3">
                             <div
                               className={`p-3 rounded-full ${
@@ -639,7 +664,7 @@ export const StudentDashboard = () => {
                               </p>
                             </div>
                           </div>
-                          <div className="text-right">
+                          <div className="text-left sm:text-right">
                             <div className="text-2xl font-bold text-primary">
                               {completedWorldRealms.length}/{worldRealms.length}
                             </div>
@@ -648,13 +673,13 @@ export const StudentDashboard = () => {
                             </div>
                             <Progress
                               value={worldProgress}
-                              className="w-24 h-2 mt-1"
+                              className="w-full sm:w-24 h-2 mt-1"
                             />
                           </div>
                         </div>
 
                         {/* Realms Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                           {worldRealms.map((realm, realmIndex) => {
                             const realmProgress = getRealmProgress(realm.id);
                             const realmUnlocked = isRealmUnlocked(realm);
@@ -686,7 +711,7 @@ export const StudentDashboard = () => {
                                       <span className="text-2xl">
                                         {realm.emoji}
                                       </span>
-                                      <h4 className="font-bold text-md">
+                                      <h4 className="font-bold text-md sm:text-lg">
                                         {realm.name}
                                       </h4>
                                     </div>
@@ -734,7 +759,7 @@ export const StudentDashboard = () => {
                                         }
                                       >
                                         {realmProgress?.quiz_completed
-                                          ? `✅ ${realmProgress.quiz_score}%`
+                                          ? `${realmProgress.quiz_score}%`
                                           : "❌"}
                                       </span>
                                     </div>
@@ -837,13 +862,13 @@ export const StudentDashboard = () => {
               <CardHeader>
                 <CardTitle className="text-center flex items-center justify-center gap-2">
                   <Trophy className="w-6 h-6 text-treasure-gold animate-pulse" />
-                  🏆 Adventure Leaderboard
+                  Adventure Leaderboard
                   <Trophy className="w-6 h-6 text-treasure-gold animate-pulse" />
                 </CardTitle>
                 <CardDescription className="text-center">
                   Compete with fellow adventurers and climb the ranks! 🚀
                   {lastLeaderboardUpdate && (
-                    <div className="mt-2 text-xs text-muted-foreground">
+                    <div className="mt-2 text-sm text-muted-foreground">
                       Last updated: {lastLeaderboardUpdate.toLocaleTimeString()}
                     </div>
                   )}
@@ -858,7 +883,6 @@ export const StudentDashboard = () => {
                   >
                     {leaderboardLoading ? (
                       <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
                         Loading...
                       </>
                     ) : (
@@ -874,15 +898,15 @@ export const StudentDashboard = () => {
                   <div className="text-center py-8">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4" />
                     <p className="text-muted-foreground">
-                      Loading leaderboard...
+                      Loading Leaderboard...
                     </p>
                   </div>
                 ) : leaderboard.length === 0 ? (
                   <div className="text-center py-8">
                     <Trophy className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-                    <p className="text-muted-foreground">No students found</p>
+                    <p className="text-muted-foreground">No Students Found</p>
                     <p className="text-sm text-muted-foreground mt-2">
-                      Students will appear here once they start their adventure!
+                      Students Will Appear Here Once They Start Their Adventure!
                     </p>
                   </div>
                 ) : (
@@ -893,15 +917,15 @@ export const StudentDashboard = () => {
                         switch (rank) {
                           case 1:
                             return (
-                              <CrownIcon className="w-6 h-6 text-yellow-500 animate-bounce" />
+                              <CrownIcon className="w-6 h-6 animate-pulse" />
                             );
                           case 2:
                             return (
-                              <Medal className="w-6 h-6 text-gray-400 animate-pulse" />
+                              <Medal className="w-6 h-6 animate-pulse" />
                             );
                           case 3:
                             return (
-                              <Award className="w-6 h-6 text-amber-600 animate-pulse" />
+                              <Award className="w-6 h-6 animate-pulse" />
                             );
                           default:
                             return (
@@ -914,14 +938,8 @@ export const StudentDashboard = () => {
 
                       const getRankBadge = (rank: number) => {
                         switch (rank) {
-                          case 1:
-                            return "bg-gradient-to-r from-yellow-400 to-yellow-600 text-white";
-                          case 2:
-                            return "bg-gradient-to-r from-gray-300 to-gray-500 text-white";
-                          case 3:
-                            return "bg-gradient-to-r from-amber-500 to-amber-700 text-white";
                           default:
-                            return "bg-muted text-muted-foreground";
+                            return "bg-gradient-to-r from-yellow-400 to-yellow-600 text-white";
                         }
                       };
 
@@ -931,50 +949,65 @@ export const StudentDashboard = () => {
                           variant={isCurrentUser ? "magical" : "default"}
                           className={`transition-all duration-300 hover:scale-[1.02] ${
                             isCurrentUser ? "ring-2 ring-primary shadow-lg" : ""
-                          }`}
+                          } overflow-hidden`}
                         >
-                          <CardContent className="p-4">
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-4">
-                                <div className="flex items-center justify-center w-12 h-12">
+                          <CardContent className="p-2 xs:p-3 sm:p-4">
+                            <div className="flex items-center justify-between gap-3 xs:gap-4 sm:gap-5 flex-wrap">
+                              <div className="flex items-center gap-3 xs:gap-4 sm:gap-5 min-w-0 w-full sm:w-auto">
+                                <div className="flex items-center justify-center w-10 h-10 xs:w-12 xs:h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-primary/10 to-primary/30 rounded-full">
                                   {getRankIcon(entry.rank)}
                                 </div>
-                                <div className="flex-1">
-                                  <div className="flex items-center gap-2">
-                                    <h3 className="font-semibold text-lg">
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center gap-2 xs:gap-3 flex-wrap">
+                                    <h3 className="font-semibold text-base xs:text-lg sm:text-xl truncate max-w-[150px] xs:max-w-[200px] sm:max-w-none">
                                       {entry.full_name}
                                       {isCurrentUser && (
-                                        <span className="ml-2 text-primary animate-pulse">
-                                          👤 You
+                                        <span className="ml-1 xs:ml-2 text-primary">
+                                            (You)
                                         </span>
                                       )}
                                     </h3>
-                                    <Badge className={getRankBadge(entry.rank)}>
+                                    <Badge
+                                      className={`${getRankBadge(
+                                        entry.rank
+                                      )} text-xs sm:text-sm whitespace-nowrap px-3 py-1 shadow-sm`}
+                                    >
                                       Rank #{entry.rank}
                                     </Badge>
                                   </div>
-                                  <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
-                                    <div className="flex items-center gap-1">
-                                      <Star className="w-4 h-4 text-treasure-gold" />
-                                      <span>{entry.total_points} points</span>
-                                    </div>
-                                    <div className="flex items-center gap-1">
-                                      <Target className="w-4 h-4 text-quest-blue" />
-                                      <span>
-                                        {entry.worlds_completed} worlds
+                                  <div className="flex items-center gap-3 xs:gap-4 sm:gap-5 mt-3 text-sm text-muted-foreground flex-wrap">
+                                    <div className="flex items-center gap-1.5 xs:gap-2 bg-treasure-gold/10 px-2 py-1 rounded-md">
+                                      <Star className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6 text-treasure-gold" />
+                                      <span className="font-medium text-treasure-gold">
+                                        {entry.total_points}{" "}
+                                        <span className="hidden xs:inline">
+                                          Points
+                                        </span>
                                       </span>
                                     </div>
-                                    <div className="flex items-center gap-1">
-                                      <Trophy className="w-4 h-4 text-primary" />
-                                      <span>
-                                        {entry.realms_completed} realms
+                                    <div className="flex items-center gap-1.5 xs:gap-2 bg-quest-blue/10 px-2 py-1 rounded-md">
+                                      <Target className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6 text-quest-blue" />
+                                      <span className="font-medium text-quest-blue">
+                                        {entry.worlds_completed}{" "}
+                                        <span className="hidden xs:inline">
+                                          Worlds
+                                        </span>
+                                      </span>
+                                    </div>
+                                    <div className="flex items-center gap-1.5 xs:gap-2 bg-primary/10 px-2 py-1 rounded-md">
+                                      <Trophy className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6 text-primary" />
+                                      <span className="font-medium text-primary">
+                                        {entry.realms_completed}{" "}
+                                        <span className="hidden xs:inline">
+                                          Realms
+                                        </span>
                                       </span>
                                     </div>
                                     {entry.member_since && (
-                                      <div className="flex items-center gap-1">
-                                        <Clock className="w-4 h-4 text-gray-500" />
-                                        <span>
-                                          Member since{" "}
+                                      <div className="hidden sm:flex items-center gap-2 bg-gray-100 px-2 py-1 rounded-md">
+                                        <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-gray-500" />
+                                        <span className="text-gray-600">
+                                          Member Since{" "}
                                           {new Date(
                                             entry.member_since
                                           ).toLocaleDateString()}
@@ -984,12 +1017,15 @@ export const StudentDashboard = () => {
                                   </div>
                                 </div>
                               </div>
-                              <div className="text-right">
-                                <div className="text-2xl font-bold text-treasure-gold">
-                                  {entry.total_points}
-                                </div>
-                                <div className="text-xs text-muted-foreground">
-                                  Total Points
+                              <div className="text-right ml-auto sm:mt-0 w-full sm:w-auto">
+                                <div className="bg-gradient-to-r from-treasure-gold/5 to-treasure-gold/10 p-3 rounded-lg shadow-inner">
+                                  <div className="text-lg xs:text-xl sm:text-2xl font-bold text-treasure-gold flex items-center justify-center gap-2">
+                                    <Star className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7" />
+                                    {entry.total_points}
+                                  </div>
+                                  <div className="text-base font-bold text-center text-treasure-gold">
+                                    Total Points
+                                  </div>
                                 </div>
                               </div>
                             </div>

@@ -37,9 +37,9 @@ const FinalCTASection = () => {
 
         <div className="flex flex-col items-center gap-6">
           <Link to="/auth">
-            <button className="group bg-yellow-400 hover:bg-yellow-300 text-purple-800 font-bold py-6 px-12 rounded-full text-2xl shadow-2xl transform hover:scale-110 transition-all duration-300 flex items-center gap-4">
-              🚀 Create Account
-              <ArrowRight className="w-8 h-8 group-hover:translate-x-2 transition-transform" />
+            <button className="group bg-yellow-400 hover:bg-yellow-300 text-purple-800 font-bold py-2 xs:py-4 sm:py-6 px-4 xs:px-8 sm:px-12 rounded-full text-base xs:text-xl sm:text-2xl shadow-2xl transform hover:scale-110 transition-all duration-300 flex items-center gap-1 xs:gap-3 sm:gap-4">
+              <span className="text-lg xs:text-xl sm:text-2xl">🚀</span> <span className="inline">Create Account</span>
+              <ArrowRight className="w-4 h-4 xs:w-6 xs:h-6 sm:w-8 sm:h-8 group-hover:translate-x-2 transition-transform" />
             </button>
           </Link>
           <p className="text-purple-200 text-sm">

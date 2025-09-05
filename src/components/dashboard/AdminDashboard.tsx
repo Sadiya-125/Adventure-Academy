@@ -47,6 +47,7 @@ import {
   Award,
   PlusIcon,
   Sparkles,
+  LogOut,
 } from "lucide-react";
 import {
   BarChart,
@@ -733,21 +734,36 @@ export const AdminDashboard = () => {
     <div className="min-h-screen bg-gradient-to-br from-primary/10 to-quest-blue/10">
       {/* Header */}
       <header className="bg-gradient-hero text-white shadow-magical">
-        <div className="container mx-auto px-4 py-6 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+        <div className="container mx-auto px-4 py-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center justify-between sm:justify-start gap-4">
             <div className="flex items-center space-x-2">
               <Shield className="w-8 h-8 animate-sparkle" />
-              <h1 className="text-2xl font-bold">Academy Admin Portal</h1>
+              <h1 className="text-xl sm:text-2xl font-bold hidden sm:block">
+                Academy Admin Portal
+              </h1>
+              <h1 className="text-xl font-bold sm:hidden">Adventure Academy</h1>
+            </div>
+            <div className="sm:hidden flex items-center gap-2">
+              <Button
+                variant="outline"
+                onClick={signOut}
+                className="bg-purple-500 border-purple-700 text-white hover:bg-white hover:text-primary transition-colors duration-300 ease-in-out flex items-center gap-2"
+              >
+                <LogOut className="w-4 h-4" />
+              </Button>
             </div>
           </div>
-          <div className="flex items-center space-x-4">
-            <span className="font-bold">🛡️ Administrator</span>
+          <div className="flex-1 text-left sm:flex sm:items-center sm:gap-4">
+            <h2 className="font-bold ml-1">🛡️ Administrator</h2>
+          </div>
+          <div className="hidden sm:flex items-center gap-3 flex-wrap sm:justify-end">
             <Button
               variant="outline"
               onClick={signOut}
-              className="bg-purple-500 border-purple-700 text-white hover:bg-white hover:text-primary transition-colors duration-300 ease-in-out"
+              className="bg-purple-500 border-purple-700 text-white hover:bg-white hover:text-primary transition-colors duration-300 ease-in-out flex items-center gap-2"
             >
-              Logout
+              <LogOut className="w-4 h-4" />
+              <span className="inline">Logout</span>
             </Button>
           </div>
         </div>
@@ -832,32 +848,38 @@ export const AdminDashboard = () => {
           onValueChange={setSelectedTab}
           className="w-full"
         >
-          <TabsList className="grid w-full grid-cols-4 mb-8">
-            <TabsTrigger
-              value="overview"
-              className="data-[state=active]:bg-primary data-[state=active]:text-white"
-            >
-              📊 Overview
-            </TabsTrigger>
-            <TabsTrigger
-              value="users"
-              className="data-[state=active]:bg-primary data-[state=active]:text-white"
-            >
-              🧑‍🤝‍🧑 Users
-            </TabsTrigger>
-            <TabsTrigger
-              value="content"
-              className="data-[state=active]:bg-primary data-[state=active]:text-white"
-            >
-              📚 Content
-            </TabsTrigger>
-            <TabsTrigger
-              value="analytics"
-              className="data-[state=active]:bg-primary data-[state=active]:text-white"
-            >
-              📈 Analytics
-            </TabsTrigger>
-          </TabsList>
+          <div className="overflow-x-auto no-scrollbar pb-2 -mx-4 px-4 pt-2 sm:pt-3">
+            <TabsList className="w-max sm:w-full mb-4 xs:mb-6 sm:mb-8 flex gap-2 xs:gap-3 sm:gap-4 p-1 xs:p-1.5 sm:p-2 rounded-lg mx-auto sm:mx-0">
+              <TabsTrigger
+                value="overview"
+                className="data-[state=active]:bg-primary data-[state=active]:text-white text-base px-2 xs:px-3 sm:px-4 py-1.5 xs:py-2 sm:py-2.5 h-auto rounded-md whitespace-nowrap"
+              >
+                <span className="inline-block text-xl">📊</span>{" "}
+                <span className="ml-1 xs:ml-2">Overview</span>
+              </TabsTrigger>
+              <TabsTrigger
+                value="users"
+                className="data-[state=active]:bg-primary data-[state=active]:text-white text-base px-2 xs:px-3 sm:px-4 py-1.5 xs:py-2 sm:py-2.5 h-auto rounded-md whitespace-nowrap"
+              >
+                <span className="inline-block text-xl">🧑‍🤝‍🧑</span>{" "}
+                <span className="ml-1 xs:ml-2">Users</span>
+              </TabsTrigger>
+              <TabsTrigger
+                value="content"
+                className="data-[state=active]:bg-primary data-[state=active]:text-white text-base px-2 xs:px-3 sm:px-4 py-1.5 xs:py-2 sm:py-2.5 h-auto rounded-md whitespace-nowrap"
+              >
+                <span className="inline-block text-xl">📚</span>{" "}
+                <span className="ml-1 xs:ml-2">Content</span>
+              </TabsTrigger>
+              <TabsTrigger
+                value="analytics"
+                className="data-[state=active]:bg-primary data-[state=active]:text-white text-base px-2 xs:px-3 sm:px-4 py-1.5 xs:py-2 sm:py-2.5 h-auto rounded-md whitespace-nowrap"
+              >
+                <span className="inline-block text-xl">📈</span>{" "}
+                <span className="ml-1 xs:ml-2">Analytics</span>
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
           <TabsContent value="overview">
             <div className="grid gap-6">
@@ -866,14 +888,22 @@ export const AdminDashboard = () => {
                   <CardTitle>🎯 Quick Actions</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-3 xs:gap-4">
                     <CreateWorldDialog
                       onWorldCreated={() => fetchData()}
                       onSubmitWorld={createWorld}
                     >
-                      <Button variant="treasure" className="h-20 flex-col">
-                        <Plus className="w-20 h-20" strokeWidth={4} />
-                        Create World
+                      <Button
+                        variant="treasure"
+                        className="h-16 xs:h-18 sm:h-20 flex-col"
+                      >
+                        <Plus
+                          className="w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12"
+                          strokeWidth={4}
+                        />
+                        <span className="text-base mt-1 break-words">
+                          Create World
+                        </span>
                       </Button>
                     </CreateWorldDialog>
 
@@ -882,9 +912,17 @@ export const AdminDashboard = () => {
                       onRealmCreated={() => fetchData()}
                       onSubmitRealm={createRealm}
                     >
-                      <Button variant="quest" className="h-20 flex-col">
-                        <Plus className="w-20 h-20" strokeWidth={4} />
-                        Create Realm
+                      <Button
+                        variant="quest"
+                        className="h-16 xs:h-18 sm:h-20 flex-col"
+                      >
+                        <Plus
+                          className="w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12"
+                          strokeWidth={4}
+                        />
+                        <span className="text-base mt-1 break-words">
+                          Create Realm
+                        </span>
                       </Button>
                     </CreateRealmDialog>
 
@@ -895,9 +933,17 @@ export const AdminDashboard = () => {
                       onQuizCreated={() => fetchData()}
                       onSubmitQuiz={createQuiz}
                     >
-                      <Button variant="magical" className="h-20 flex-col">
-                        <Plus className="w-20 h-20" strokeWidth={4} />
-                        Create Quiz
+                      <Button
+                        variant="magical"
+                        className="h-16 xs:h-18 sm:h-20 flex-col"
+                      >
+                        <Plus
+                          className="w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12"
+                          strokeWidth={4}
+                        />
+                        <span className="text-base mt-1 break-words">
+                          Create Quiz
+                        </span>
                       </Button>
                     </CreateQuizDialog>
 
@@ -906,9 +952,17 @@ export const AdminDashboard = () => {
                       onQuestionsCreated={() => fetchData()}
                       onSubmitQuestions={createQuizQuestions}
                     >
-                      <Button variant="quest" className="h-20 flex-col">
-                        <Plus className="w-20 h-20" strokeWidth={4} />
-                        Create Quiz Questions
+                      <Button
+                        variant="quest"
+                        className="h-16 xs:h-18 sm:h-20 flex-col"
+                      >
+                        <Plus
+                          className="w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12"
+                          strokeWidth={4}
+                        />
+                        <span className="text-base mt-1 break-words">
+                          Quiz Questions
+                        </span>
                       </Button>
                     </CreateQuizQuestionsDialog>
 
@@ -916,32 +970,42 @@ export const AdminDashboard = () => {
                       worlds={worlds}
                       onWorldCreated={() => fetchData()}
                     >
-                      <Button variant="magical" className="h-20 flex-col">
-                        <Sparkles className="w-20 h-20" strokeWidth={4} />
-                        Create World with AI
+                      <Button
+                        variant="magical"
+                        className="h-16 xs:h-18 sm:h-20 flex-col"
+                      >
+                        <Sparkles
+                          className="w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12"
+                          strokeWidth={4}
+                        />
+                        <span className="text-base mt-1 break-words">
+                          AI World
+                        </span>
                       </Button>
                     </CreateWorldWithAIDialog>
                   </div>
                 </CardContent>
               </Card>
 
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-5 sm:gap-6">
                 <Card variant="floating">
-                  <CardHeader>
-                    <CardTitle>🌍 Recent Worlds</CardTitle>
+                  <CardHeader className="pb-2 xs:pb-3 sm:pb-4">
+                    <CardTitle className="text-xl">🌍 Recent Worlds</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-3">
+                    <div className="space-y-2 xs:space-y-3">
                       {worlds.map((world) => (
                         <div
                           key={world.id}
-                          className="flex items-center justify-between p-3 bg-muted/50 rounded-lg"
+                          className="flex items-center justify-between p-2 xs:p-3 bg-muted/50 rounded-lg"
                         >
-                          <div className="flex items-center space-x-3">
+                          <div className="flex items-center space-x-2 xs:space-x-3">
                             <span className="text-lg">{world.emoji}</span>
-                            <div>
-                              <p className="font-medium">{world.name}</p>
-                              <p className="text-sm text-muted-foreground">
+                            <div className="overflow-hidden">
+                              <p className="font-medium text-base break-words">
+                                {world.name}
+                              </p>
+                              <p className="text-sm text-muted-foreground break-words">
                                 Created{" "}
                                 {new Date(
                                   world.created_at
@@ -951,7 +1015,7 @@ export const AdminDashboard = () => {
                           </div>
                           <Badge
                             variant={world.is_active ? "default" : "secondary"}
-                            className="text-sm"
+                            className="text-sm whitespace-nowrap ml-2"
                           >
                             {world.is_active ? "Active" : "Inactive"}
                           </Badge>
@@ -962,30 +1026,37 @@ export const AdminDashboard = () => {
                 </Card>
 
                 <Card variant="quest">
-                  <CardHeader>
-                    <CardTitle>👥 Recent Users</CardTitle>
+                  <CardHeader className="pb-2 xs:pb-3 sm:pb-4">
+                    <CardTitle className="text-xl">👥 Recent Users</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-3">
+                    <div className="space-y-2 xs:space-y-3">
                       {users.map((user) => (
                         <div
                           key={user.id}
-                          className="flex items-center justify-between p-3 bg-muted/50 rounded-lg"
+                          className="flex items-center justify-between p-2 xs:p-3 bg-muted/50 rounded-lg"
                         >
-                          <div>
-                            <p className="font-medium">{user.full_name}</p>
-                            <p className="text-sm text-muted-foreground">
+                          <div className="overflow-hidden">
+                            <p className="font-medium text-base break-words">
+                              {user.full_name}
+                            </p>
+                            <p className="text-sm text-muted-foreground break-words">
                               {user.email}
                             </p>
                           </div>
-                          <Badge variant="outline" className="text-sm">
+                          <Badge
+                            variant="outline"
+                            className="text-sm whitespace-nowrap ml-2"
+                          >
                             {user.role === "student"
                               ? "👦"
                               : user.role === "parent"
                               ? "👨‍👩‍👧"
                               : "🛡️"}{" "}
-                            {user.role.charAt(0).toUpperCase() +
-                              user.role.slice(1)}
+                            <span className="hidden xs:inline">
+                              {user.role.charAt(0).toUpperCase() +
+                                user.role.slice(1)}
+                            </span>
                           </Badge>
                         </div>
                       ))}
@@ -1027,30 +1098,29 @@ export const AdminDashboard = () => {
                         return (
                           <div
                             key={user.id}
-                            className="p-4 border rounded-lg space-y-3"
+                            className="p-3 xs:p-4 border rounded-lg space-y-2 xs:space-y-3"
                           >
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center space-x-4">
-                                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-lg">
+                            <div className="flex flex-col xs:flex-row xs:items-center xs:justify-between gap-2 xs:gap-0">
+                              <div className="flex items-center space-x-3">
+                                <div className="w-10 h-10 xs:w-12 xs:h-12 rounded-full bg-primary/10 flex items-center justify-center text-base xs:text-lg">
                                   👦
                                 </div>
-                                <div>
-                                  <p className="font-medium text-lg">
+                                <div className="overflow-hidden">
+                                  <p className="font-medium text-base break-words">
                                     {user.full_name}
                                   </p>
-                                  <p className="text-sm text-muted-foreground">
+                                  <p className="text-sm text-muted-foreground break-words">
                                     {user.email}
                                   </p>
-                                  <p className="text-sm text-muted-foreground">
-                                    Class Level: {user.class_level || "Not Set"}{" "}
-                                    • Joined{" "}
+                                  <p className="text-sm text-muted-foreground break-words">
+                                    Class: {user.class_level || "Not Set"} •{" "}
                                     {new Date(
                                       user.created_at
                                     ).toLocaleDateString()}
                                   </p>
                                 </div>
                               </div>
-                              <div className="flex items-center space-x-2">
+                              <div className="flex items-center space-x-2 mt-1 xs:mt-0">
                                 <Badge variant="outline" className="text-sm">
                                   {user.role.charAt(0).toUpperCase() +
                                     user.role.slice(1)}
@@ -1068,13 +1138,13 @@ export const AdminDashboard = () => {
                             </div>
 
                             {/* Student Progress Summary */}
-                            <div className="grid grid-cols-4 gap-4 p-3 bg-muted/50 rounded-lg">
+                            <div className="grid grid-cols-2 xs:grid-cols-4 gap-2 xs:gap-4 p-2 xs:p-3 bg-muted/50 rounded-lg">
                               <div className="text-center">
                                 <div className="text-2xl font-bold text-blue-600">
                                   {totalPoints}
                                 </div>
                                 <div className="text-sm text-muted-foreground">
-                                  Total Points
+                                  Points
                                 </div>
                               </div>
                               <div className="text-center">
@@ -1082,7 +1152,7 @@ export const AdminDashboard = () => {
                                   {completedRealms}
                                 </div>
                                 <div className="text-sm text-muted-foreground">
-                                  Realms Completed
+                                  Realms
                                 </div>
                               </div>
                               <div className="text-center">
@@ -1090,12 +1160,16 @@ export const AdminDashboard = () => {
                                   {totalTime}
                                 </div>
                                 <div className="text-sm text-muted-foreground">
-                                  Minutes Spent
+                                  Minutes
                                 </div>
                               </div>
                               <div className="text-center">
                                 <div className="text-2xl font-bold text-orange-600">
-                                  {studentProgress.length}
+                                  {
+                                    studentProgress.filter(
+                                      (p) => p.quiz_score !== null
+                                    ).length
+                                  }
                                 </div>
                                 <div className="text-sm text-muted-foreground">
                                   Total Sessions
@@ -1104,37 +1178,40 @@ export const AdminDashboard = () => {
                             </div>
 
                             {/* Action Buttons */}
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center space-x-2">
+                            <div className="flex flex-col xs:flex-row justify-between gap-2 mt-2">
+                              <div className="flex flex-1">
                                 {user.active === false ? (
                                   <Button
                                     variant="outline"
                                     size="sm"
+                                    className="w-full xs:w-auto"
                                     onClick={() =>
                                       toggleUserActive(user.id, true)
                                     }
                                     disabled={updatingUserId === user.id}
                                   >
-                                    <Unlock className="w-4 h-4 mr-2" />
-                                    Unlock Access
+                                    <Unlock className="w-4 h-4 mr-1 xs:mr-2" />
+                                    <span className="truncate">Unlock Access</span>
                                   </Button>
                                 ) : (
                                   <Button
                                     variant="outline"
                                     size="sm"
+                                    className="w-full xs:w-auto"
                                     onClick={() =>
                                       toggleUserActive(user.id, false)
                                     }
                                     disabled={updatingUserId === user.id}
                                   >
-                                    <Lock className="w-4 h-4 mr-2" />
-                                    Lock Access
+                                    <Lock className="w-4 h-4 mr-1 xs:mr-2" />
+                                    <span className="truncate">Lock Access</span>
                                   </Button>
                                 )}
                               </div>
                               <Button
                                 variant="destructive"
                                 size="sm"
+                                className="w-full xs:w-auto"
                                 onClick={async () => {
                                   if (
                                     confirm(
@@ -1157,8 +1234,8 @@ export const AdminDashboard = () => {
                                   }
                                 }}
                               >
-                                <Trash className="w-4 h-4 mr-2" />
-                                Delete Account
+                                <Trash className="w-4 h-4 mr-1 xs:mr-2" />
+                                <span className="truncate">Delete Account</span>
                               </Button>
                             </div>
                           </div>
@@ -1188,21 +1265,21 @@ export const AdminDashboard = () => {
                         return (
                           <div
                             key={user.id}
-                            className="p-4 border rounded-lg space-y-3"
+                            className="p-3 xs:p-4 border rounded-lg space-y-2 xs:space-y-3"
                           >
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center space-x-4">
-                                <div className="w-12 h-12 rounded-full bg-quest-blue/10 flex items-center justify-center text-lg">
+                            <div className="flex flex-col xs:flex-row xs:items-center xs:justify-between gap-2 xs:gap-0">
+                              <div className="flex items-center space-x-3">
+                                <div className="w-10 h-10 xs:w-12 xs:h-12 rounded-full bg-quest-blue/10 flex items-center justify-center text-base xs:text-lg">
                                   👨‍👩‍👧
                                 </div>
-                                <div>
-                                  <p className="font-medium text-lg">
+                                <div className="overflow-hidden">
+                                  <p className="font-medium text-base break-words">
                                     {user.full_name}
                                   </p>
-                                  <p className="text-sm text-muted-foreground">
+                                  <p className="text-sm text-muted-foreground break-words">
                                     {user.email}
                                   </p>
-                                  <p className="text-sm text-muted-foreground">
+                                  <p className="text-sm text-muted-foreground break-words">
                                     {children.length} children • Joined{" "}
                                     {new Date(
                                       user.created_at
@@ -1210,7 +1287,7 @@ export const AdminDashboard = () => {
                                   </p>
                                 </div>
                               </div>
-                              <div className="flex items-center space-x-2">
+                              <div className="flex items-center space-x-2 mt-1 xs:mt-0">
                                 <Badge variant="outline" className="text-sm">
                                   {user.role.charAt(0).toUpperCase() +
                                     user.role.slice(1)}
@@ -1229,11 +1306,11 @@ export const AdminDashboard = () => {
 
                             {/* Children Summary */}
                             {children.length > 0 && (
-                              <div className="p-4 bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl shadow-md">
-                                <p className="text-lg font-bold mb-4 text-center text-purple-700">
+                              <div className="p-3 xs:p-4 bg-gradient-to-r from-purple-50 to-blue-50 rounded-xl shadow-md">
+                                <p className="text-base font-bold mb-2 xs:mb-4 text-center text-purple-700">
                                   🧒 Children Summary
                                 </p>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-3 xs:gap-4">
                                   {children.map((child) => {
                                     const childProgress =
                                       analyticsData.studentProgress.filter(
@@ -1250,14 +1327,14 @@ export const AdminDashboard = () => {
                                     return (
                                       <div
                                         key={child.id}
-                                        className="p-4 bg-white rounded-xl shadow hover:shadow-lg transition-all duration-300 border-t-4 border-purple-400"
+                                        className="p-2 xs:p-3 sm:p-4 bg-white rounded-xl shadow hover:shadow-lg transition-all duration-300 border-t-4 border-purple-400"
                                       >
                                         <div className="flex items-center justify-between mb-2">
-                                          <span className="text-lg font-semibold text-purple-700">
+                                          <span className="text-base sm:text-lg font-semibold text-purple-700">
                                             {child.full_name}
                                           </span>
                                           <span
-                                            className={`px-2 py-1 text-sm font-semibold rounded-full ${
+                                            className={`px-1 xs:px-2 py-0.5 xs:py-1 text-sm rounded-full ${
                                               child.active
                                                 ? "bg-green-100 text-green-800"
                                                 : "bg-red-100 text-red-800"
@@ -1266,7 +1343,7 @@ export const AdminDashboard = () => {
                                             {child.active ? "Active" : "Locked"}
                                           </span>
                                         </div>
-                                        <div className="flex flex-col gap-1 text-md text-gray-600">
+                                        <div className="flex flex-col gap-0.5 xs:gap-1 text-sm sm:text-md text-gray-600">
                                           <span>
                                             Class Level:{" "}
                                             <span className="font-medium">
@@ -1294,12 +1371,13 @@ export const AdminDashboard = () => {
                             )}
 
                             {/* Action Buttons */}
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center space-x-2">
+                            <div className="flex flex-col xs:flex-row justify-between gap-2 mt-2">
+                              <div className="flex flex-1">
                                 {user.active === false ? (
                                   <Button
                                     variant="outline"
                                     size="sm"
+                                    className="w-full xs:w-auto"
                                     onClick={() =>
                                       toggleUserActive(user.id, true)
                                     }
@@ -1312,6 +1390,7 @@ export const AdminDashboard = () => {
                                   <Button
                                     variant="outline"
                                     size="sm"
+                                    className="w-full xs:w-auto"
                                     onClick={() =>
                                       toggleUserActive(user.id, false)
                                     }
@@ -1325,6 +1404,7 @@ export const AdminDashboard = () => {
                               <Button
                                 variant="destructive"
                                 size="sm"
+                                className="w-full xs:w-auto"
                                 onClick={() => {
                                   if (
                                     confirm(
@@ -1366,7 +1446,7 @@ export const AdminDashboard = () => {
                         .sort((a, b) => a.order_index - b.order_index);
                       return (
                         <div key={world.id} className="p-4 border rounded-lg">
-                          <div className="flex items-start justify-between">
+                          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
                             <div className="flex items-center space-x-4">
                               <span className="text-2xl">{world.emoji}</span>
                               <div>
@@ -1380,7 +1460,7 @@ export const AdminDashboard = () => {
                                 </p>
                               </div>
                             </div>
-                            <div className="flex items-center space-x-2">
+                            <div className="flex items-center space-x-2 self-end sm:self-auto mt-2 sm:mt-0">
                               <Badge
                                 variant={
                                   world.is_active ? "default" : "secondary"
@@ -1419,31 +1499,31 @@ export const AdminDashboard = () => {
                               {worldRealms.map((realm) => (
                                 <div
                                   key={realm.id}
-                                  className="p-3 bg-muted/50 rounded-lg"
+                                  className="p-2 xs:p-3 bg-muted/50 rounded-lg"
                                 >
-                                  <div className="flex items-center justify-between">
-                                    <div className="flex items-center space-x-3">
-                                      <span className="text-xl">
+                                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                                    <div className="flex items-center space-x-2 xs:space-x-3">
+                                      <span className="text-lg xs:text-xl">
                                         {realm.emoji}
                                       </span>
                                       <div>
-                                        <p className="font-medium">
+                                        <p className="font-medium text-sm xs:text-base">
                                           {realm.name}
                                         </p>
-                                        <p className="text-sm text-muted-foreground">
+                                        <p className="text-xs xs:text-sm text-muted-foreground">
                                           Order: {realm.order_index}{" "}
                                           {realm.video_url ? "• Has Video" : ""}
                                         </p>
                                       </div>
                                     </div>
-                                    <div className="flex items-center space-x-2">
+                                    <div className="flex items-center space-x-2 self-end sm:self-auto mt-2 sm:mt-0">
                                       <Badge
                                         variant={
                                           realm.is_active
                                             ? "default"
                                             : "secondary"
                                         }
-                                        className="text-sm"
+                                        className="text-xs xs:text-sm"
                                       >
                                         {realm.is_active
                                           ? "Active"
@@ -1484,21 +1564,21 @@ export const AdminDashboard = () => {
                                         .map((quiz) => (
                                           <div
                                             key={quiz.id}
-                                            className="p-2 bg-white rounded-lg border pb-5 mb-2"
+                                            className="p-1 xs:p-2 bg-white rounded-lg border pb-3 xs:pb-5 mb-2"
                                           >
-                                            <div className="flex items-center justify-between p-2">
+                                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-1 xs:p-2 gap-2">
                                               <div>
-                                                <div className="font-medium text-md">
+                                                <div className="font-medium text-xs xs:text-sm sm:text-md">
                                                   {quiz.title}
                                                 </div>
-                                                <div className="text-sm text-muted-foreground">
+                                                <div className="text-xs xs:text-sm text-muted-foreground">
                                                   {quiz.total_questions}{" "}
                                                   Question(s) • Pass Percentage{" "}
                                                   {quiz.passing_score}% •{" "}
                                                   {quiz.points_reward} Point(s)
                                                 </div>
                                               </div>
-                                              <div className="flex items-center space-x-1">
+                                              <div className="flex items-center space-x-1 self-end sm:self-auto">
                                                 <EditQuizDialog
                                                   quiz={quiz}
                                                   onQuizUpdated={() =>
@@ -1510,7 +1590,7 @@ export const AdminDashboard = () => {
                                                     variant="outline"
                                                     size="sm"
                                                   >
-                                                    Edit
+                                                    <Edit className="w-4 h-4" />
                                                   </Button>
                                                 </EditQuizDialog>
                                                 <Button
@@ -1541,15 +1621,15 @@ export const AdminDashboard = () => {
                                                   .map((question) => (
                                                     <div
                                                       key={question.id}
-                                                      className="flex items-center justify-between text-sm p-2 bg-gray-50 rounded-lg"
+                                                      className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-xs xs:text-sm p-1 xs:p-2 bg-gray-50 rounded-lg gap-2"
                                                     >
                                                       <div className="flex-1">
-                                                        <div className="font-medium">
+                                                        <div className="font-medium text-xs xs:text-sm">
                                                           {
                                                             question.question_text
                                                           }
                                                         </div>
-                                                        <div className="text-muted-foreground">
+                                                        <div className="text-xs xs:text-sm text-muted-foreground">
                                                           {question.question_type ===
                                                           "mcq"
                                                             ? "Multiple Choice"
@@ -1559,7 +1639,7 @@ export const AdminDashboard = () => {
                                                           {question.order_index}
                                                         </div>
                                                       </div>
-                                                      <div className="flex items-center space-x-1">
+                                                      <div className="flex items-center space-x-1 self-end sm:self-auto">
                                                         <EditQuizQuestionDialog
                                                           question={question}
                                                           onQuestionUpdated={() =>
@@ -1572,13 +1652,15 @@ export const AdminDashboard = () => {
                                                           <Button
                                                             variant="outline"
                                                             size="sm"
+                                                            className="w-full xs:w-auto"
                                                           >
-                                                            Edit
+                                                            <Edit className="w-4 h-4" />
                                                           </Button>
                                                         </EditQuizQuestionDialog>
                                                         <Button
                                                           variant="outline"
                                                           size="sm"
+                                                          className="w-full xs:w-auto"
                                                           onClick={() => {
                                                             if (
                                                               confirm(
@@ -1612,9 +1694,11 @@ export const AdminDashboard = () => {
                                                     <Button
                                                       variant="outline"
                                                       size="sm"
+                                                      className="whitespace-nowrap text-sm flex items-center"
                                                     >
                                                       <PlusIcon className="w-4 h-4 mr-1" />
-                                                      Add Questions
+                                                      <span className="hidden sm:inline">Add Questions</span>
+                                                      <span className="sm:hidden">Add</span>
                                                     </Button>
                                                   )}
                                                 </CreateQuizQuestionsDialog>
@@ -1692,7 +1776,7 @@ export const AdminDashboard = () => {
               </div>
 
               {/* Charts Row 1 */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 xs:gap-6">
                 {/* Daily Activity Chart */}
                 <Card>
                   <CardHeader>
@@ -1702,7 +1786,8 @@ export const AdminDashboard = () => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <ResponsiveContainer width="100%" height={300}>
+                    <div className="overflow-x-auto">
+                    <ResponsiveContainer width="200%" height={300}>
                       <AreaChart data={analyticsData.dailyActivity}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis
@@ -1730,6 +1815,7 @@ export const AdminDashboard = () => {
                         />
                       </AreaChart>
                     </ResponsiveContainer>
+                    </div>
                   </CardContent>
                 </Card>
 
@@ -1784,7 +1870,7 @@ export const AdminDashboard = () => {
               </div>
 
               {/* Charts Row 2 */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 xs:gap-6">
                 {/* Quiz Performance */}
                 <Card>
                   <CardHeader>
@@ -1794,23 +1880,29 @@ export const AdminDashboard = () => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <ResponsiveContainer width="100%" height={300}>
+                    <div className="overflow-x-auto">
+                    <ResponsiveContainer width="200%" height={300}>
                       <BarChart data={analyticsData.quizPerformance}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis
                           dataKey="realmName"
                           interval={0}
-                          height={50}
+                          height={60}
                           tick={(props) => {
                             const { x, y, payload } = props;
+                            const fontSize = 13;
+                            
+                            const displayText = payload.value;
+                            const words = displayText.split(" ");
+                            
                             return (
                               <text
                                 x={x}
                                 y={y + 10}
                                 textAnchor="middle"
-                                fontSize={13}
+                                fontSize={fontSize}
                               >
-                                {payload.value.split(" ").map((word, index) => (
+                                {words.map((word, index) => (
                                   <tspan
                                     key={index}
                                     x={x}
@@ -1825,7 +1917,7 @@ export const AdminDashboard = () => {
                         />
                         <YAxis />
                         <Tooltip />
-                        <Legend />
+                        <Legend wrapperStyle={{ fontSize: '14px' }} />
                         <Bar
                           dataKey="averageScore"
                           fill="#8884d8"
@@ -1838,6 +1930,7 @@ export const AdminDashboard = () => {
                         />
                       </BarChart>
                     </ResponsiveContainer>
+                  </div>
                   </CardContent>
                 </Card>
 
@@ -1849,13 +1942,18 @@ export const AdminDashboard = () => {
                       Top Students by Points
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="flex items-center">
-                    {" "}
-                    <ResponsiveContainer width="100%" height={300}>
+                  <CardContent>
+                    <div className="overflow-x-auto">
+                    <ResponsiveContainer width="200%" height={300}>
                       <BarChart
                         data={analyticsData.timeSpentData}
                         layout="vertical"
-                        margin={{ top: 10, right: 20, left: -30, bottom: 10 }}
+                        margin={{ 
+                          top: 10, 
+                          right: 20, 
+                          left: -40, 
+                          bottom: 10 
+                        }}
                       >
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis
@@ -1869,11 +1967,22 @@ export const AdminDashboard = () => {
                         <YAxis
                           type="category"
                           dataKey="studentName"
-                          width={165}
-                          tick={{ fontSize: 15 }}
+                          width={140}
+                          tick={(props) => {
+                            const { x, y, payload } = props;
+                            const fontSize = 14;
+                            const displayText = payload.value;
+                            
+                            return (
+                              <text x={x-5} y={y} textAnchor="end" fontSize={fontSize} dy={3}>
+                                {displayText}
+                              </text>
+                            );
+                          }}
                         />
                         <Tooltip
                           formatter={(value) => [`${value}`, "Points"]}
+                          contentStyle={{ fontSize: '14px' }}
                         />
                         <Bar
                           dataKey="points"
@@ -1882,6 +1991,7 @@ export const AdminDashboard = () => {
                         />
                       </BarChart>
                     </ResponsiveContainer>
+                    </div>
                   </CardContent>
                 </Card>
               </div>
@@ -1895,7 +2005,8 @@ export const AdminDashboard = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ResponsiveContainer width="100%" height={400}>
+                  <div className="overflow-x-auto">
+                  <ResponsiveContainer width="200%" height={400}>
                     <ScatterChart
                       margin={{
                         top: 20,
@@ -1949,6 +2060,7 @@ export const AdminDashboard = () => {
                       />
                     </ScatterChart>
                   </ResponsiveContainer>
+                  </div>
                 </CardContent>
               </Card>
 
@@ -1961,20 +2073,20 @@ export const AdminDashboard = () => {
                   <CardContent className="space-y-4">
                     <div className="flex justify-between items-center">
                       <span>Total Points Earned:</span>
-                      <span className="font-semibold text-green-600">
+                      <span className="font-semibold text-green-600 text-base">
                         {analyticsData.totalPointsEarned.toLocaleString()}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span>Active vs Inactive Students:</span>
-                      <span className="font-semibold">
+                      <span className="font-semibold text-base">
                         {analyticsData.activeStudents} /{" "}
                         {analyticsData.inactiveStudents}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span>Total Parents:</span>
-                      <span className="font-semibold text-blue-600">
+                      <span className="font-semibold text-blue-600 text-base">
                         {analyticsData.totalParents}
                       </span>
                     </div>
@@ -1988,19 +2100,19 @@ export const AdminDashboard = () => {
                   <CardContent className="space-y-4">
                     <div className="flex justify-between items-center">
                       <span>Average Quiz Score:</span>
-                      <span className="font-semibold text-purple-600">
+                      <span className="font-semibold text-purple-600 text-base">
                         {analyticsData.averageQuizScore}%
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span>Overall Completion Rate:</span>
-                      <span className="font-semibold text-orange-600">
+                      <span className="font-semibold text-orange-600 text-base">
                         {analyticsData.completionRate}%
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span>Total Learning Sessions:</span>
-                      <span className="font-semibold text-blue-600">
+                      <span className="font-semibold text-blue-600 text-base">
                         {analyticsData.studentProgress.length}
                       </span>
                     </div>
@@ -2296,7 +2408,7 @@ const CreateQuizDialog = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent>
+      <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>🧠 Create New Quiz</DialogTitle>
           <DialogDescription>
@@ -2571,7 +2683,7 @@ const CreateQuizQuestionsDialog = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto sm:max-w-[95vw] md:max-w-[90vw] lg:max-w-4xl p-4 sm:p-6">
         <DialogHeader>
           <DialogTitle>📝 Create Quiz Questions</DialogTitle>
           <DialogDescription>
@@ -2614,7 +2726,7 @@ const CreateQuizQuestionsDialog = ({
             <div>
               {questions.map((question, index) => (
                 <div key={index} className="p-5 border rounded-lg space-y-3">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
                     <h4 className="font-medium">Question {index + 1}</h4>
                     <Button
                       type="button"
@@ -2639,7 +2751,7 @@ const CreateQuizQuestionsDialog = ({
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <Label>Question Type</Label>
                       <div className="mb-1"></div>
@@ -2674,7 +2786,7 @@ const CreateQuizQuestionsDialog = ({
                       {question.options.map((option, optionIndex) => (
                         <div
                           key={optionIndex}
-                          className="flex items-center gap-2"
+                          className="flex flex-wrap items-center gap-2"
                         >
                           <Input
                             value={option}
@@ -2702,7 +2814,7 @@ const CreateQuizQuestionsDialog = ({
                     <div className="space-y-2">
                       <Label>Correct Answer</Label>
                       <div className="mb-1"></div>
-                      <div className="flex items-center gap-4">
+                      <div className="flex flex-wrap items-center gap-4">
                         <label className="flex items-center gap-2 text-sm">
                           <input
                             type="radio"
@@ -2762,7 +2874,7 @@ const CreateQuizQuestionsDialog = ({
           )}
 
           {selectedQuizId && (
-            <div className="flex justify-between">
+            <div className="flex flex-col sm:flex-row justify-between gap-4 sm:gap-0">
               {existingQuestionsCount + questions.length <
                 selectedQuiz.total_questions && (
                 <Button type="button" variant="outline" onClick={addQuestion}>
@@ -2770,7 +2882,7 @@ const CreateQuizQuestionsDialog = ({
                   Add Question
                 </Button>
               )}
-              <div className="space-x-2">
+              <div className="flex flex-wrap gap-2 justify-end">
                 <Button
                   type="button"
                   variant="outline"
@@ -3676,7 +3788,7 @@ const CreateWorldWithAIDialog = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[500px] max-h-[95vh] flex flex-col">
+      <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader className="shrink-0">
           <DialogTitle>🤖 Create World with AI</DialogTitle>
           <DialogDescription>
@@ -3737,7 +3849,7 @@ const CreateWorldWithAIDialog = ({
           </form>
         </div>
 
-        <div className="mt-4 shrink-0">
+        <div className="shrink-0">
           <Button
             type="submit"
             form="aiWorldForm"

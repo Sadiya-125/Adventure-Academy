@@ -60,6 +60,7 @@ import {
   UserPlus,
   Trash2,
   Search,
+  LogOut,
 } from "lucide-react";
 
 interface Child {
@@ -546,21 +547,36 @@ export const ParentDashboard = () => {
     <div className="min-h-screen bg-gradient-to-br from-primary/10 to-quest-blue/10">
       {/* Header */}
       <header className="bg-gradient-hero text-white shadow-magical">
-        <div className="container mx-auto px-4 py-6 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+        <div className="container mx-auto px-4 py-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center justify-between sm:justify-start gap-4">
             <div className="flex items-center space-x-2">
               <Shield className="w-8 h-8 animate-sparkle" />
-              <h1 className="text-2xl font-bold">Parent Guardian Portal</h1>
+              <h1 className="text-xl sm:text-2xl font-bold hidden sm:block">
+                Parent Guardian Portal
+              </h1>
+              <h1 className="text-xl font-bold sm:hidden">Parent Portal</h1>
+            </div>
+            <div className="sm:hidden flex items-center gap-2">
+              <Button
+                variant="outline"
+                onClick={signOut}
+                className="bg-purple-500 border-purple-700 text-white hover:bg-white hover:text-primary transition-colors duration-300 ease-in-out flex items-center gap-2"
+              >
+                <LogOut className="w-4 h-4" />
+              </Button>
             </div>
           </div>
-          <div className="flex items-center space-x-4">
-            <span className="font-bold">👨‍👩‍👧 Guardian</span>
+          <div className="flex-1 text-left sm:flex sm:items-center sm:gap-4">
+            <h2 className="font-bold ml-1">👨‍👩‍👧 Guardian</h2>
+          </div>
+          <div className="hidden sm:flex items-center gap-3 flex-wrap sm:justify-end">
             <Button
               variant="outline"
               onClick={signOut}
-              className="bg-purple-500 border-purple-700 text-white hover:bg-white hover:text-primary transition-colors duration-300 ease-in-out"
+              className="bg-purple-500 border-purple-700 text-white hover:bg-white hover:text-primary transition-colors duration-300 ease-in-out flex items-center gap-2"
             >
-              Logout
+              <LogOut className="w-4 h-4" />
+              <span className="inline">Logout</span>
             </Button>
           </div>
         </div>
@@ -635,49 +651,53 @@ export const ParentDashboard = () => {
 
         {/* Main Content */}
         <Tabs defaultValue="children" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 mb-8">
-            <TabsTrigger
-              value="children"
-              className="data-[state=active]:bg-primary data-[state=active]:text-white"
-            >
-              👦 Children Progress
-            </TabsTrigger>
-            <TabsTrigger
-              value="controls"
-              className="data-[state=active]:bg-primary data-[state=active]:text-white"
-            >
+          <div className="overflow-x-auto no-scrollbar pb-2 -mx-4 px-4 pt-2 sm:pt-3">
+            <TabsList className="w-max sm:w-full mb-4 xs:mb-6 sm:mb-8 flex gap-2 xs:gap-3 sm:gap-4 p-1 xs:p-1.5 sm:p-2 rounded-lg mx-auto sm:mx-0">
+              <TabsTrigger
+                value="children"
+                className="data-[state=active]:bg-primary data-[state=active]:text-white text-base px-2 xs:px-3 sm:px-4 py-1.5 xs:py-2 sm:py-2.5 h-auto rounded-md whitespace-nowrap"
+              >
+                <span className="inline-block text-xl">👦</span>{" "}
+                <span className="ml-1 xs:ml-2">Children Progress</span>
+              </TabsTrigger>
+              <TabsTrigger
+                value="controls"
+                className="data-[state=active]:bg-primary data-[state=active]:text-white text-base px-2 xs:px-3 sm:px-4 py-1.5 xs:py-2 sm:py-2.5 h-auto rounded-md whitespace-nowrap"
+              >
               ⏳ Screen Time Controls
             </TabsTrigger>
             <TabsTrigger
               value="insights"
-              className="data-[state=active]:bg-primary data-[state=active]:text-white"
+              className="data-[state=active]:bg-primary data-[state=active]:text-white text-base px-2 xs:px-3 sm:px-4 py-1.5 xs:py-2 sm:py-2.5 h-auto rounded-md whitespace-nowrap"
             >
-              📊 Insights
+              <span className="inline-block text-xl">📊</span>{" "}
+              <span className="ml-1 xs:ml-2">Insights</span>
             </TabsTrigger>
             <TabsTrigger
               value="manage"
-              className="data-[state=active]:bg-primary data-[state=active]:text-white"
+              className="data-[state=active]:bg-primary data-[state=active]:text-white text-base px-2 xs:px-3 sm:px-4 py-1.5 xs:py-2 sm:py-2.5 h-auto rounded-md whitespace-nowrap"
             >
-              ⚙️ Manage Children
+              <span className="inline-block text-xl">⚙️</span>{" "}
+              <span className="ml-1 xs:ml-2">Manage Children</span>
             </TabsTrigger>
           </TabsList>
-
+          </div>
           <TabsContent value="children">
             <div className="grid gap-6">
-              {childrenProgress.map(({ child, stats, recentActivity }) => (
+              {childrenProgress.map(({ child, stats }) => (
                 <Card
                   key={child.id}
                   variant="floating"
                   className="hover:shadow-lg transition-all duration-300"
                 >
                   <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-12 h-12 bg-primary/80 rounded-full flex items-center justify-center">
-                          <Crown className="w-6 h-6 text-treasure-gold" />
+                    <div className="flex items-center justify-between gap-3 flex-wrap">
+                      <div className="flex items-center space-x-3 min-w-0">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/80 rounded-full flex items-center justify-center">
+                          <Crown className="w-5 h-5 sm:w-6 sm:h-6 text-treasure-gold" />
                         </div>
                         <div>
-                          <CardTitle className="flex items-center gap-2">
+                          <CardTitle className="flex items-center gap-2 text-base sm:text-lg truncate">
                             {child.full_name}
                             <Badge
                               variant="secondary"
@@ -687,12 +707,12 @@ export const ParentDashboard = () => {
                             </Badge>
                           </CardTitle>
                           <CardDescription className="mt-1.5">
-                            Member since{" "}
+                            Member Since{" "}
                             {new Date(child.created_at).toLocaleDateString()}
                           </CardDescription>
                         </div>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 ml-auto">
                         <Button
                           variant="outline"
                           size="sm"
@@ -708,7 +728,7 @@ export const ParentDashboard = () => {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                       <div className="text-center p-3 bg-primary/5 rounded-lg">
                         <p className="text-2xl font-bold text-primary">
                           {stats.worldsCompleted}
@@ -741,41 +761,6 @@ export const ParentDashboard = () => {
                         <p className="text-sm text-muted-foreground">⏰ Time</p>
                       </div>
                     </div>
-
-                    {/* Recent Activity */}
-                    <div className="space-y-2">
-                      <h4 className="font-semibold text-md flex items-center gap-2">
-                        <Zap className="w-4 h-4" />
-                        Recent Activity
-                      </h4>
-                      <div className="space-y-1">
-                        {recentActivity.slice(0, 3).map((activity, index) => (
-                          <div
-                            key={index}
-                            className="flex items-center gap-2 text-sm text-muted-foreground"
-                          >
-                            <div className="w-2 h-2 bg-primary rounded-full"></div>
-                            <span className="capitalize">
-                              {activity.type.replace("_", " ")}
-                            </span>
-                            <span>•</span>
-                            <span>
-                              {new Date(
-                                activity.timestamp
-                              ).toLocaleDateString()}
-                            </span>
-                            {activity.points && (
-                              <>
-                                <span>•</span>
-                                <span className="text-treasure-gold">
-                                  +{activity.points} pts
-                                </span>
-                              </>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
                   </CardContent>
                 </Card>
               ))}
@@ -785,11 +770,11 @@ export const ParentDashboard = () => {
                   <CardContent className="text-center py-12">
                     <Users className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
                     <p className="text-lg font-bold mb-2">
-                      No children registered yet
+                      No Children Registered Yet
                     </p>
                     <p className="text-muted-foreground mb-4">
-                      Add your children to start monitoring their learning
-                      journey
+                      Add your Children to Start Monitoring their Learning
+                      Journey
                     </p>
                     <Button
                       variant="treasure"
@@ -812,7 +797,7 @@ export const ParentDashboard = () => {
                   <Card key={child.id} variant="world">
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
-                        <Settings className="w-5 h-5" />
+                        <Settings className="w-5 h-5 shrink-0" />
                         {child.full_name} - Screen Time Controls
                         <div className="text-center text-sm">
                           <span
@@ -832,7 +817,7 @@ export const ParentDashboard = () => {
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <div className="grid md:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-6">
                           <div className="space-y-4">
                             <div>
@@ -896,7 +881,7 @@ export const ParentDashboard = () => {
                             </div>
                           </div>
 
-                          <div className="flex items-start space-x-2 p-4 bg-amber-50 rounded-lg border border-amber-200">
+                          <div className="flex items-start gap-2 p-4 bg-amber-50 rounded-lg border border-amber-200">
                             <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5" />
                             <div>
                               <p className="text-md font-medium text-amber-800">
@@ -1083,28 +1068,28 @@ export const ParentDashboard = () => {
                           <Sparkles className="w-4 h-4" />
                           Recent Activity
                         </h4>
-                        <div className="space-y-2">
+                        <div className="space-y-3">
                           {recentActivity.map((activity, index) => (
                             <div
                               key={index}
-                              className="flex items-center gap-3 p-2 bg-gray-50 rounded-lg"
+                              className="flex items-center gap-3 p-3 bg-gradient-to-r from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200 transition-colors duration-200 rounded-lg shadow-sm border border-gray-100"
                             >
-                              <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
+                              <div className="w-10 h-10 bg-secondary/80 rounded-full flex items-center justify-center shadow-inner">
                                 {activity.type === "quiz" && (
-                                  <Brain className="w-4 h-4 text-primary" />
+                                  <Brain className="w-5 h-5 text-primary" />
                                 )}
                                 {activity.type === "video" && (
-                                  <Video className="w-4 h-4 text-primary" />
+                                  <Video className="w-5 h-5 text-primary" />
                                 )}
                                 {activity.type === "realm_completed" && (
-                                  <CheckCircle className="w-4 h-4 text-success" />
+                                  <CheckCircle className="w-5 h-5 text-success" />
                                 )}
                                 {activity.type === "world_completed" && (
-                                  <Trophy className="w-4 h-4 text-treasure-gold" />
+                                  <Trophy className="w-5 h-5 text-treasure-gold" />
                                 )}
                               </div>
-                              <div className="flex-1">
-                                <p className="text-md font-medium">
+                              <div className="flex-1 overflow-hidden">
+                                <p className="text-md font-medium truncate">
                                   {activity.title}
                                 </p>
                                 <p className="text-sm text-muted-foreground">
@@ -1116,9 +1101,9 @@ export const ParentDashboard = () => {
                               {activity.points && (
                                 <Badge
                                   variant="secondary"
-                                  className="bg-treasure-gold/20 text-treasure-gold text-sm"
+                                  className="bg-treasure-gold/20 text-treasure-gold font-bold text-sm px-2 py-1 ml-1 flex items-center gap-1"
                                 >
-                                  +{activity.points}
+                                  <Star className="w-3 h-3" /> {activity.points}
                                 </Badge>
                               )}
                             </div>
@@ -1157,7 +1142,7 @@ export const ParentDashboard = () => {
                       Add Existing Child
                     </Button>
                     <p className="text-sm text-muted-foreground">
-                      Add Children who already have Accounts by Searching their
+                      Add Children who Already have Accounts by Searching their
                       Email
                     </p>
                   </div>
@@ -1165,8 +1150,8 @@ export const ParentDashboard = () => {
                   <div className="grid gap-4">
                     {children.map((child) => (
                       <Card key={child.id} variant="default">
-                        <CardContent className="p-4">
-                          <div className="flex items-center justify-between">
+                        <CardContent className="p-4 mr-[-12px]">
+                          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                             <div className="flex items-center gap-3">
                               <div className="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
                                 <Baby className="w-5 h-5 text-primary" />
@@ -1180,10 +1165,11 @@ export const ParentDashboard = () => {
                                 </p>
                               </div>
                             </div>
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-2 w-full sm:w-auto">
                               <Button
                                 variant="outline"
                                 size="sm"
+                                className="flex-1 sm:flex-initial justify-center"
                                 onClick={() => {
                                   setEditingChild(child);
                                   setEditForm({
@@ -1199,8 +1185,8 @@ export const ParentDashboard = () => {
                               <Button
                                 variant="outline"
                                 size="sm"
+                                className="flex-1 sm:flex-initial justify-center text-red-600 hover:text-white mr-[8px]"
                                 onClick={() => removeChild(child.id)}
-                                className="text-red-600 hover:text-white"
                               >
                                 <Trash2 className="w-4 h-4 mr-2" />
                                 Remove
@@ -1289,15 +1275,15 @@ export const ParentDashboard = () => {
 
       {/* Add Child Dialog */}
       <Dialog open={showAddChild} onOpenChange={setShowAddChild}>
-        <DialogContent className="sm:max-w-lg">
+        <DialogContent className="w-full max-w-sm sm:max-w-lg md:max-w-xl lg:max-w-2xl px-4">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
+            <DialogTitle className="flex items-center gap-2 text-base sm:text-lg">
               <UserPlus className="w-5 h-5" />
               Add Existing Child
             </DialogTitle>
             <DialogDescription>
-              Search for your child's existing account by email and add them to
-              your family
+              Search for Your Child's Existing Account by Email and Add them to
+              your Family
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
@@ -1404,10 +1390,10 @@ export const ParentDashboard = () => {
 
       {/* Child Details Dialog */}
       <Dialog open={showChildDetails} onOpenChange={setShowChildDetails}>
-        <DialogContent className="sm:max-w-2xl">
+        <DialogContent className="sm:max-w-2xl [&>button]:hidden">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-xl font-bold">
-              <Eye className="w-5 h-5" />
+            <DialogTitle className="flex items-center text-xl font-bold">
+              <Eye className="w-5 h-5 shrink-0" />
               {selectedChild?.full_name}'s Detailed Progress
             </DialogTitle>
           </DialogHeader>
