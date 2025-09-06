@@ -561,7 +561,7 @@ export const ParentDashboard = () => {
             </div>
           </div>
           <div className="flex-1 text-left sm:flex sm:items-center sm:gap-4">
-            <h2 className="font-bold ml-1">👨‍👩‍👧‍👦 {profile.full_name}</h2>
+            <h2 className="font-bold ml-1">🧑‍🤝‍🧑 {profile.full_name}</h2>
           </div>
           <div className="hidden sm:flex items-center gap-3 flex-wrap sm:justify-end">
             <Button
@@ -581,7 +581,7 @@ export const ParentDashboard = () => {
         <Card variant="magical" className="mb-8">
           <CardHeader>
             <CardTitle className="text-2xl text-center">
-              👨‍👩‍👧‍👦 Welcome, {profile.full_name}! Monitor your Children's Learning
+              🧑‍🤝‍🧑 Welcome, {profile.full_name}! Monitor your Children's Learning
               Journey
             </CardTitle>
             <CardDescription className="text-center">

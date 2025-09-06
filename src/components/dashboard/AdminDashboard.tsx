@@ -789,9 +789,7 @@ export const AdminDashboard = () => {
             <CardContent className="p-4">
               <Shield className="w-6 h-6 mx-auto mb-2 text-success" />
               <p className="text-2xl font-bold">{stats.totalParents}</p>
-              <p className="text-sm text-muted-foreground">
-                👨‍👩‍👧‍👦👪👩‍👧‍👦👩‍👦👪👨‍👩‍👧‍👦🧑‍🤝‍🧑 Parents
-              </p>
+              <p className="text-sm text-muted-foreground">🧑‍🤝‍🧑Parents</p>
             </CardContent>
           </Card>
 
@@ -1037,7 +1035,7 @@ export const AdminDashboard = () => {
                             {user.role === "student"
                               ? "👦"
                               : user.role === "parent"
-                              ? "👨‍👩‍👧‍👦"
+                              ? "🧑‍🤝‍🧑"
                               : "🛡️"}{" "}
                             <span className="hidden xs:inline">
                               {user.role.charAt(0).toUpperCase() +
@@ -1238,7 +1236,7 @@ export const AdminDashboard = () => {
               {/* Parents Section */}
               <Card variant="quest">
                 <CardHeader>
-                  <CardTitle>👨‍👩‍👧‍👦 Parent Management</CardTitle>
+                  <CardTitle>🧑‍🤝‍🧑 Parent Management</CardTitle>
                   <CardDescription>
                     View and Manage Parent Accounts and their Children
                   </CardDescription>
@@ -1260,7 +1258,7 @@ export const AdminDashboard = () => {
                             <div className="flex flex-col xs:flex-row xs:items-center xs:justify-between gap-2 xs:gap-0">
                               <div className="flex items-center space-x-3">
                                 <div className="w-10 h-10 xs:w-12 xs:h-12 rounded-full bg-quest-blue/10 flex items-center justify-center text-base xs:text-lg">
-                                  👨‍👩‍👧‍👦
+                                  🧑‍🤝‍🧑
                                 </div>
                                 <div className="overflow-hidden">
                                   <p className="font-medium text-base break-words">

@@ -16,7 +16,7 @@ const LearningSystemSection = () => {
       gradient: "from-pink-500 to-rose-600",
     },
     {
-      emoji: "👨‍👩‍👧‍👦",
+      emoji: "🧑‍🤝‍🧑",
       title: "Parent Dashboard",
       description:
         "Track progress, limit screen time, and guide your child's journey.",
