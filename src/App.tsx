@@ -18,7 +18,7 @@ const queryClient = new QueryClient();
 // Protected Route Component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
-
+  console.log("Auth State - User:", user, "Loading:", loading);
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 to-quest-blue/10">
@@ -26,7 +26,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
           <div className="w-16 h-16 bg-gradient-hero rounded-full flex items-center justify-center mx-auto mb-4">
             <span className="text-2xl">🛡️</span>
           </div>
-          <p className="text-lg font-bold">Securing your Quest...</p>
+          <p className="text-lg font-bold">Securing Your Quest...</p>
         </div>
       </div>
     );
@@ -85,7 +85,7 @@ const DashboardRouter = () => {
           .single();
 
         if (createError) {
-          console.error("Error creating profile:", createError);
+          console.error("Error Creating Profile:", createError);
           setLoading(false);
           return;
         }
@@ -149,10 +149,6 @@ const PublicRoute = ({ children }: { children: React.ReactNode }) => {
         </div>
       </div>
     );
-  }
-  if (loading) {
-    console.log("Loading user authentication status...");
-    console.log("User:", user);
   }
 
   if (user) {
