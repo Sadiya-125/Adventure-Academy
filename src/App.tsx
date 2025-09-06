@@ -60,7 +60,6 @@ const DashboardRouter = () => {
     }
 
     try {
-      // First, try to fetch existing profile
       const { data: existingProfile, error: fetchError } = await supabase
         .from("profiles")
         .select("*")
@@ -68,7 +67,6 @@ const DashboardRouter = () => {
         .single();
 
       if (fetchError && fetchError.code === "PGRST116") {
-        // Profile doesn't exist, create one
         const { data: newProfile, error: createError } = await supabase
           .from("profiles")
           .insert({
@@ -125,7 +123,6 @@ const DashboardRouter = () => {
     return <Navigate to="/auth" replace />;
   }
 
-  // Route to appropriate dashboard based on role
   switch (profile.role) {
     case "student":
       return <StudentDashboard />;
@@ -138,7 +135,6 @@ const DashboardRouter = () => {
   }
 };
 
-// Public Route Component (redirects authenticated users)
 const PublicRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
 
@@ -149,7 +145,7 @@ const PublicRoute = ({ children }: { children: React.ReactNode }) => {
           <div className="w-16 h-16 bg-gradient-hero rounded-full flex items-center justify-center mx-auto mb-4">
             <span className="text-2xl">🌟</span>
           </div>
-          <p className="text-lg font-bold">Checking your Status...</p>
+          <p className="text-lg font-bold">Checking Your Status...</p>
         </div>
       </div>
     );
