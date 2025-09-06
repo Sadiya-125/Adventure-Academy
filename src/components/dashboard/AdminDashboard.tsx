@@ -1274,7 +1274,7 @@ export const AdminDashboard = () => {
                             <div className="flex flex-col xs:flex-row xs:items-center xs:justify-between gap-2 xs:gap-0">
                               <div className="flex items-center space-x-3">
                                 <div className="w-10 h-10 xs:w-12 xs:h-12 rounded-full bg-quest-blue/10 flex items-center justify-center text-base xs:text-lg">
-                                  👨‍👩‍👧
+                                  �
                                 </div>
                                 <div className="overflow-hidden">
                                   <p className="font-medium text-base break-words">

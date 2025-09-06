@@ -586,7 +586,7 @@ export const ParentDashboard = () => {
         <Card variant="magical" className="mb-8">
           <CardHeader>
             <CardTitle className="text-2xl text-center">
-              👨‍👩‍👧 Welcome, Guardian! Monitor your Children's Learning Journey
+              👪 Welcome, Guardian! Monitor your Children's Learning Journey
             </CardTitle>
             <CardDescription className="text-center">
               Track progress, manage screen time, and support their adventures!
