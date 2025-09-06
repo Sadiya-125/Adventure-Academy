@@ -150,6 +150,10 @@ const PublicRoute = ({ children }: { children: React.ReactNode }) => {
       </div>
     );
   }
+  if (loading) {
+    console.log("Loading user authentication status...");
+    console.log("User:", user);
+  }
 
   if (user) {
     return <Navigate to="/dashboard" replace />;
