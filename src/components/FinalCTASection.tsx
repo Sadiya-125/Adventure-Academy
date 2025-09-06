@@ -57,7 +57,7 @@ const FinalCTASection = () => {
             🔒 100% Safe
           </div>
           <div className="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white font-medium animate-float delay-200">
-            👪 Family Approved
+            👨‍👩‍👧‍👦 Family Approved
           </div>
         </div>
       </div>

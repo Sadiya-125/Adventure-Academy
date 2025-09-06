@@ -136,7 +136,7 @@ export const AuthForm = () => {
         break;
       case "parent":
         toast({
-          title: `👪 Welcome Back, ${profile.full_name}!`,
+          title: `👨‍👩‍👧‍👦 Welcome Back, ${profile.full_name}!`,
           description: "Track your Child's Progress and Guide their Journey.",
         });
         break;
@@ -316,7 +316,7 @@ export const AuthForm = () => {
                           👦 Student Adventurer
                         </SelectItem>
                         <SelectItem value="parent">
-                          👪 Parent Guardian
+                          👨‍👩‍👧‍👦 Parent Guardian
                         </SelectItem>
                         <SelectItem value="admin">🛡️ Academy Admin</SelectItem>
                       </SelectContent>

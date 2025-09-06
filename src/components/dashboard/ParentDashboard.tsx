@@ -40,28 +40,28 @@ import {
   BarChart3,
   Crown,
   Baby,
-  Plus,
   Edit,
   Eye,
   Star,
   CheckCircle,
-  Play,
   Brain,
   Video,
   Lock,
   Unlock,
   TrendingUp,
   Calendar,
-  BookOpen,
-  Award,
-  Zap,
   Sparkles,
-  ArrowRight,
   UserPlus,
   Trash2,
   Search,
   LogOut,
 } from "lucide-react";
+
+interface UserProfile {
+  id: string;
+  full_name: string;
+  role: string;
+}
 
 interface Child {
   id: string;
@@ -107,6 +107,7 @@ interface AddChildForm {
 export const ParentDashboard = () => {
   const { user, signOut } = useAuth();
   const { toast } = useToast();
+  const [profile, setProfile] = useState<UserProfile | null>(null);
   const [children, setChildren] = useState<Child[]>([]);
   const [childrenProgress, setChildrenProgress] = useState<ChildProgress[]>([]);
   const [loading, setLoading] = useState(true);
@@ -141,16 +142,18 @@ export const ParentDashboard = () => {
     if (!user) return;
 
     try {
-      // Fetch parent profile
       const { data: parentProfile } = await supabase
         .from("profiles")
-        .select("id")
+        .select("id, full_name, role")
         .eq("user_id", user.id)
         .single();
 
-      if (!parentProfile) return;
+      if (parentProfile) {
+        setProfile(parentProfile);
+      } else {
+        return;
+      }
 
-      // Fetch children
       const { data: childrenData } = await supabase
         .from("profiles")
         .select("*")
@@ -196,7 +199,6 @@ export const ParentDashboard = () => {
         hour12: true,
       });
 
-      // Calculate completed worlds (all realms in a world must be completed)
       const worlds = await supabase.from("worlds").select("id");
       const realms = await supabase.from("realms").select("id, world_id");
 
@@ -230,22 +232,19 @@ export const ParentDashboard = () => {
             )
           : 0;
 
-      // Calculate time spent based on completed_at dates
       const now = new Date();
       const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
       const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
 
-      // Today's progress (last 24 hours)
       const todayProgress = totalProgress.filter(
         (p) => p.completed_at && new Date(p.completed_at) >= today
       );
 
-      // Weekly progress (last 7 days)
       const weeklyProgress = totalProgress.filter(
         (p) => p.completed_at && new Date(p.completed_at) >= weekAgo
       );
 
-      const timeSpent = totalProgress.length * 15; // Total time estimate
+      const timeSpent = totalProgress.length * 15;
       const todayTimeSpent = todayProgress.length * 15;
       const weeklyTimeSpent = weeklyProgress.length * 15;
 
@@ -494,7 +493,6 @@ export const ParentDashboard = () => {
 
       if (error) throw error;
 
-      // Update local state
       setChildren((prev) =>
         prev.map((child) =>
           child.id === childId ? { ...child, active: isActive } : child
@@ -550,9 +548,6 @@ export const ParentDashboard = () => {
           <div className="flex items-center justify-between sm:justify-start gap-4">
             <div className="flex items-center space-x-2">
               <Shield className="w-8 h-8 animate-sparkle" />
-              <h1 className="text-xl sm:text-2xl font-bold hidden sm:block">
-                Parent Guardian Portal
-              </h1>
               <h1 className="text-xl font-bold sm:hidden">Parent Portal</h1>
             </div>
             <div className="sm:hidden flex items-center gap-2">
@@ -566,7 +561,7 @@ export const ParentDashboard = () => {
             </div>
           </div>
           <div className="flex-1 text-left sm:flex sm:items-center sm:gap-4">
-            <h2 className="font-bold ml-1">👪 Guardian</h2>
+            <h2 className="font-bold ml-1">👨‍👩‍👧‍👦 {profile.full_name}</h2>
           </div>
           <div className="hidden sm:flex items-center gap-3 flex-wrap sm:justify-end">
             <Button
@@ -586,10 +581,11 @@ export const ParentDashboard = () => {
         <Card variant="magical" className="mb-8">
           <CardHeader>
             <CardTitle className="text-2xl text-center">
-              👪 Welcome, Guardian! Monitor your Children's Learning Journey
+              👨‍👩‍👧‍👦 Welcome, {profile.full_name}! Monitor your Children's Learning
+              Journey
             </CardTitle>
             <CardDescription className="text-center">
-              Track progress, manage screen time, and support their adventures!
+              Track Progress, Manage Screen Time, and Support their Adventures!
             </CardDescription>
           </CardHeader>
         </Card>

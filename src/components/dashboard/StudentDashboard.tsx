@@ -107,7 +107,6 @@ export const StudentDashboard = () => {
     }
   }, [leaderboard.length, leaderboardLoading]);
 
-  // Add new useEffect to refresh leaderboard when data changes
   useEffect(() => {
     if (progress.length > 0 && worlds.length > 0 && realms.length > 0) {
       fetchLeaderboard();
@@ -118,7 +117,6 @@ export const StudentDashboard = () => {
     if (!user) return;
 
     try {
-      // Fetch user profile
       const { data: profileData } = await supabase
         .from("profiles")
         .select("*")
@@ -129,7 +127,6 @@ export const StudentDashboard = () => {
         setProfile(profileData);
       }
 
-      // Fetch worlds
       const { data: worldsData } = await supabase
         .from("worlds")
         .select("*")
@@ -140,7 +137,6 @@ export const StudentDashboard = () => {
         setWorlds(worldsData);
       }
 
-      // Fetch realms
       const { data: realmsData } = await supabase
         .from("realms")
         .select("*")
@@ -151,7 +147,6 @@ export const StudentDashboard = () => {
         setRealms(realmsData);
       }
 
-      // Fetch student progress
       if (profileData) {
         const { data: progressData } = await supabase
           .from("student_progress")
@@ -161,7 +156,6 @@ export const StudentDashboard = () => {
         if (progressData) {
           setProgress(progressData);
 
-          // Calculate stats
           const completedRealms = progressData.filter((p) => p.is_completed);
           const totalPoints = progressData.reduce(
             (sum, p) => sum + (p.points_earned || 0),
@@ -178,7 +172,6 @@ export const StudentDashboard = () => {
               ? Math.round((passedQuizzes / totalQuizzes) * 100)
               : 0;
 
-          // Calculate completed worlds - a world is completed only when ALL its realms are completed
           const completedWorlds =
             worldsData?.filter((world) => {
               const worldRealms =
@@ -212,7 +205,6 @@ export const StudentDashboard = () => {
   const fetchLeaderboard = async () => {
     setLeaderboardLoading(true);
     try {
-      // Fetch all student profiles (no filtering by points to show all students)
       const { data: profilesData, error: profilesError } = await supabase
         .from("profiles")
         .select("id, full_name, created_at")
@@ -236,7 +228,6 @@ export const StudentDashboard = () => {
         return;
       }
 
-      // Get all progress data for all students
       const { data: progressData, error: progressError } = await supabase
         .from("student_progress")
         .select(
@@ -253,7 +244,6 @@ export const StudentDashboard = () => {
         return;
       }
 
-      // Process the data to calculate points and rankings
       const processedData = profilesData
         .map((user) => {
           const userProgress =
@@ -261,7 +251,6 @@ export const StudentDashboard = () => {
               (progress) => progress.student_id === user.id
             ) || [];
 
-          // Calculate total points from all completed realms
           const totalPoints = userProgress.reduce(
             (sum, progress) => sum + (progress.points_earned || 0),
             0
@@ -271,7 +260,6 @@ export const StudentDashboard = () => {
             (progress) => progress.is_completed
           );
 
-          // Calculate completed worlds - a world is completed only when ALL its realms are completed
           const completedWorlds = worlds.filter((world) => {
             const worldRealms = realms.filter((r) => r.world_id === world.id);
             const completedWorldRealms = worldRealms.filter((realm) =>
@@ -294,7 +282,6 @@ export const StudentDashboard = () => {
           };
         })
         .sort((a, b) => {
-          // Sort by total points (descending), then by realms completed, then by name
           if (b.total_points !== a.total_points) {
             return b.total_points - a.total_points;
           }
@@ -310,9 +297,6 @@ export const StudentDashboard = () => {
 
       setLeaderboard(processedData);
       setLastLeaderboardUpdate(new Date());
-
-      // Log success for debugging
-      console.log(`Leaderboard updated with ${processedData.length} students`);
     } catch (error) {
       console.error("Error fetching leaderboard:", error);
       toast({
@@ -362,8 +346,8 @@ export const StudentDashboard = () => {
 
   const handleBackToWorlds = () => {
     setSelectedWorldId(null);
-    fetchData(); // Refresh data when returning
-    fetchLeaderboard(); // Also refresh leaderboard to show latest points
+    fetchData();
+    fetchLeaderboard();
   };
 
   if (selectedWorldId) {
@@ -429,7 +413,7 @@ export const StudentDashboard = () => {
         <Card variant="magical" className="mb-8">
           <CardHeader>
             <CardTitle className="text-2xl text-center">
-              🌟 Welcome back, {profile?.full_name}! Ready for Your Next Quest?
+              🌟 Welcome Back, {profile?.full_name}! Ready for Your Next Quest?
             </CardTitle>
           </CardHeader>
         </Card>
@@ -866,10 +850,10 @@ export const StudentDashboard = () => {
                   <Trophy className="w-6 h-6 text-treasure-gold animate-pulse" />
                 </CardTitle>
                 <CardDescription className="text-center">
-                  Compete with fellow adventurers and climb the ranks! 🚀
+                  Compete with Fellow Adventurers and Climb the Ranks! 🚀
                   {lastLeaderboardUpdate && (
                     <div className="mt-2 text-sm text-muted-foreground">
-                      Last updated: {lastLeaderboardUpdate.toLocaleTimeString()}
+                      Last Updated: {lastLeaderboardUpdate.toLocaleTimeString()}
                     </div>
                   )}
                 </CardDescription>
@@ -882,9 +866,7 @@ export const StudentDashboard = () => {
                     className="bg-gradient-to-r from-treasure-gold to-quest-blue hover:from-treasure-gold/90 hover:to-quest-blue/90"
                   >
                     {leaderboardLoading ? (
-                      <>
-                        Loading...
-                      </>
+                      <>Loading...</>
                     ) : (
                       <>
                         <Zap className="w-4 h-4 mr-2" />
@@ -920,13 +902,9 @@ export const StudentDashboard = () => {
                               <CrownIcon className="w-6 h-6 animate-pulse" />
                             );
                           case 2:
-                            return (
-                              <Medal className="w-6 h-6 animate-pulse" />
-                            );
+                            return <Medal className="w-6 h-6 animate-pulse" />;
                           case 3:
-                            return (
-                              <Award className="w-6 h-6 animate-pulse" />
-                            );
+                            return <Award className="w-6 h-6 animate-pulse" />;
                           default:
                             return (
                               <span className="text-lg font-bold text-muted-foreground">
@@ -963,7 +941,7 @@ export const StudentDashboard = () => {
                                       {entry.full_name}
                                       {isCurrentUser && (
                                         <span className="ml-1 xs:ml-2 text-primary">
-                                            (You)
+                                          (You)
                                         </span>
                                       )}
                                     </h3>

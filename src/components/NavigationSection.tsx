@@ -33,7 +33,7 @@ const NavigationSection = () => {
 
           <div className="group bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 border-4 border-transparent hover:border-teal-400">
             <div className="text-6xl mb-6 text-center group-hover:animate-bounce">
-              👪
+              👨‍👩‍👧‍👦
             </div>
             <h3 className="text-2xl font-bold text-purple-800 mb-4 text-center">
               Parent Monitoring

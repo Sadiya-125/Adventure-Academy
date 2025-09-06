@@ -26,17 +26,12 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   Shield,
   Users,
-  BookOpen,
-  Settings,
   Plus,
   Edit,
   Trash,
-  Eye,
-  BarChart3,
   Activity,
   Crown,
   Star,
-  Play,
   Brain,
   Globe,
   Lock,
@@ -61,8 +56,6 @@ import {
   PieChart,
   Pie,
   Cell,
-  LineChart,
-  Line,
   Area,
   AreaChart,
   ScatterChart,
@@ -227,7 +220,6 @@ export const AdminDashboard = () => {
     if (!user) return;
 
     try {
-      // Fetch all stats
       const [
         { data: profilesData },
         { data: worldsData },
@@ -257,7 +249,6 @@ export const AdminDashboard = () => {
             .length,
         }));
 
-        // Calculate analytics data
         const students = profilesData.filter((u: any) => u.role === "student");
         const parents = profilesData.filter((u: any) => u.role === "parent");
         const activeStudents = students.filter((u: any) => u.active !== false);
@@ -265,7 +256,6 @@ export const AdminDashboard = () => {
           (u: any) => u.active === false
         );
 
-        // Class level distribution
         const classLevelCounts: { [key: number]: number } = {};
         students.forEach((student: any) => {
           if (student.class_level) {
@@ -280,7 +270,6 @@ export const AdminDashboard = () => {
           })
         );
 
-        // Daily activity (last 7 days)
         const dailyActivity = [];
         for (let i = 6; i >= 0; i--) {
           const date = new Date();
@@ -341,7 +330,6 @@ export const AdminDashboard = () => {
       }
 
       if (studentProgressData) {
-        // Calculate quiz performance and time spent data
         const quizPerformance = [];
         const timeSpentData = [];
 
@@ -486,7 +474,7 @@ export const AdminDashboard = () => {
     });
 
     if (!error) {
-      fetchData(); // Refresh data
+      fetchData();
     }
   };
 
@@ -566,7 +554,6 @@ export const AdminDashboard = () => {
   };
 
   const deleteWorld = async (worldId: string) => {
-    // This will cascade delete realms, quizzes, and quiz questions due to foreign key constraints
     const { error } = await supabase.from("worlds").delete().eq("id", worldId);
 
     if (error) {
@@ -579,7 +566,6 @@ export const AdminDashboard = () => {
   };
 
   const deleteRealm = async (realmId: string) => {
-    // This will cascade delete quizzes and quiz questions due to foreign key constraints
     const { error } = await supabase.from("realms").delete().eq("id", realmId);
 
     if (error) {
@@ -592,7 +578,6 @@ export const AdminDashboard = () => {
   };
 
   const deleteQuiz = async (quizId: string) => {
-    // This will cascade delete quiz questions due to foreign key constraints
     const { error } = await supabase.from("quizzes").delete().eq("id", quizId);
 
     if (error) {
@@ -661,7 +646,7 @@ export const AdminDashboard = () => {
       .eq("id", quizId);
 
     if (error) {
-      console.error("Error updating quiz:", error.message);
+      console.error("Error Updating Quiz:", error.message);
       return false;
     }
 
@@ -691,7 +676,7 @@ export const AdminDashboard = () => {
       .eq("id", questionId);
 
     if (error) {
-      console.error("Error updating quiz question:", error.message);
+      console.error("Error Updating Quiz Question:", error.message);
       return false;
     }
 
@@ -709,7 +694,7 @@ export const AdminDashboard = () => {
       if (error) throw error;
       await fetchData();
     } catch (error) {
-      console.error("Error toggling user active:", error);
+      console.error("Error Toggling User Active:", error);
     } finally {
       setUpdatingUserId(null);
     }
@@ -738,10 +723,9 @@ export const AdminDashboard = () => {
           <div className="flex items-center justify-between sm:justify-start gap-4">
             <div className="flex items-center space-x-2">
               <Shield className="w-8 h-8 animate-sparkle" />
-              <h1 className="text-xl sm:text-2xl font-bold hidden sm:block">
+              <h1 className="text-xl font-bold sm:block">
                 Academy Admin Portal
               </h1>
-              <h1 className="text-xl font-bold sm:hidden">Adventure Academy</h1>
             </div>
             <div className="sm:hidden flex items-center gap-2">
               <Button
@@ -805,7 +789,7 @@ export const AdminDashboard = () => {
             <CardContent className="p-4">
               <Shield className="w-6 h-6 mx-auto mb-2 text-success" />
               <p className="text-2xl font-bold">{stats.totalParents}</p>
-              <p className="text-sm text-muted-foreground">� Parents</p>
+              <p className="text-sm text-muted-foreground">👨‍👩‍👧‍👦 Parents</p>
             </CardContent>
           </Card>
 
@@ -1051,7 +1035,7 @@ export const AdminDashboard = () => {
                             {user.role === "student"
                               ? "👦"
                               : user.role === "parent"
-                              ? "�"
+                              ? "👨‍👩‍👧‍👦"
                               : "🛡️"}{" "}
                             <span className="hidden xs:inline">
                               {user.role.charAt(0).toUpperCase() +
@@ -1252,7 +1236,7 @@ export const AdminDashboard = () => {
               {/* Parents Section */}
               <Card variant="quest">
                 <CardHeader>
-                  <CardTitle>� Parent Management</CardTitle>
+                  <CardTitle>👨‍👩‍👧‍👦 Parent Management</CardTitle>
                   <CardDescription>
                     View and Manage Parent Accounts and their Children
                   </CardDescription>
@@ -1274,7 +1258,7 @@ export const AdminDashboard = () => {
                             <div className="flex flex-col xs:flex-row xs:items-center xs:justify-between gap-2 xs:gap-0">
                               <div className="flex items-center space-x-3">
                                 <div className="w-10 h-10 xs:w-12 xs:h-12 rounded-full bg-quest-blue/10 flex items-center justify-center text-base xs:text-lg">
-                                  �
+                                  👨‍👩‍👧‍👦
                                 </div>
                                 <div className="overflow-hidden">
                                   <p className="font-medium text-base break-words">
@@ -1284,7 +1268,7 @@ export const AdminDashboard = () => {
                                     {user.email}
                                   </p>
                                   <p className="text-sm text-muted-foreground break-words">
-                                    {children.length} children • Joined{" "}
+                                    {children.length} Children • Joined{" "}
                                     {new Date(
                                       user.created_at
                                     ).toLocaleDateString()}
@@ -1409,14 +1393,25 @@ export const AdminDashboard = () => {
                                 variant="destructive"
                                 size="sm"
                                 className="w-full xs:w-auto"
-                                onClick={() => {
+                                onClick={async () => {
                                   if (
                                     confirm(
                                       `Are You Sure You Want to Delete ${user.full_name}'s Account? This will also Remove all Associated Children.`
                                     )
                                   ) {
-                                    // TODO: Implement delete user functionality
-                                    console.log("Delete user:", user.id);
+                                    const { error } = await supabase
+                                      .from("profiles")
+                                      .delete()
+                                      .eq("id", user.id);
+
+                                    if (error) {
+                                      console.error(
+                                        "Error Deleting User:",
+                                        error.message
+                                      );
+                                    } else {
+                                      fetchData();
+                                    }
                                   }
                                 }}
                               >
@@ -2001,7 +1996,7 @@ export const AdminDashboard = () => {
                           <Bar
                             dataKey="points"
                             fill="#ffc658"
-                            radius={[5, 5, 5, 5]} // rounded bars
+                            radius={[5, 5, 5, 5]}
                           />
                         </BarChart>
                       </ResponsiveContainer>
@@ -2413,7 +2408,6 @@ const CreateQuizDialog = ({
     setLoading(false);
   };
 
-  // Get realms that don't have quizzes yet
   const realmsWithoutQuizzes = realms.filter((realm) => {
     const realmQuizzes = quizzes.filter((q) => q.realm_id === realm.id);
     return realmQuizzes.length === 0;
@@ -3575,7 +3569,7 @@ const EditQuizQuestionDialog = ({
               onChange={(e) =>
                 setForm((p) => ({ ...p, explanation: e.target.value }))
               }
-              placeholder="Explain why this answer is correct..."
+              placeholder="Explain Why this Answer is Correct..."
             />
           </div>
 
