@@ -129,9 +129,9 @@ const PublicRoute = ({ children }: { children: React.ReactNode }) => {
 
   if (user) {
     return <Navigate to="/dashboard" replace />;
+  } else {
+    return <Navigate to="/auth" replace />;
   }
-
-  return <>{children}</>;
 };
 
 const App = () => (
