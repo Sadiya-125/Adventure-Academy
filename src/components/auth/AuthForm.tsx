@@ -308,7 +308,7 @@ export const AuthForm = () => {
                       required
                       onValueChange={(value) => setSelectedRole(value)}
                     >
-                      <SelectTrigger className="h-12">
+                      <SelectTrigger className="h-12 text-md">
                         <SelectValue placeholder="Choose your Role" />
                       </SelectTrigger>
                       <SelectContent>
@@ -330,7 +330,7 @@ export const AuthForm = () => {
                         📚 Class Level
                       </Label>
                       <Select name="classLevel" required>
-                        <SelectTrigger className="h-12">
+                        <SelectTrigger className="h-12 text-md">
                           <SelectValue placeholder="Select Your Class (2-8)" />
                         </SelectTrigger>
                         <SelectContent>

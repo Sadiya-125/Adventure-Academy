@@ -789,7 +789,7 @@ export const AdminDashboard = () => {
             <CardContent className="p-4">
               <Shield className="w-6 h-6 mx-auto mb-2 text-success" />
               <p className="text-2xl font-bold">{stats.totalParents}</p>
-              <p className="text-sm text-muted-foreground">🧑‍🤝‍🧑Parents</p>
+              <p className="text-sm text-muted-foreground">🧑‍🤝‍🧑 Parents</p>
             </CardContent>
           </Card>
 
