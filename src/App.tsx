@@ -18,7 +18,7 @@ const queryClient = new QueryClient();
 // Protected Route Component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
-  console.log("Auth State - User:", user, "Loading:", loading);
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 to-quest-blue/10">
@@ -112,6 +112,7 @@ const DashboardRouter = () => {
 
 const PublicRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
+  console.log("Auth State - User:", user, "Loading:", loading);
 
   if (loading) {
     return (
