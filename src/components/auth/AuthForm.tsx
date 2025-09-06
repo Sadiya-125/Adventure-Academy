@@ -136,7 +136,7 @@ export const AuthForm = () => {
         break;
       case "parent":
         toast({
-          title: `👨‍👩‍👧 Welcome Back, ${profile.full_name}!`,
+          title: `👪 Welcome Back, ${profile.full_name}!`,
           description: "Track your Child's Progress and Guide their Journey.",
         });
         break;

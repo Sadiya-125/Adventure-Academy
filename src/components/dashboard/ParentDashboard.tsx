@@ -566,7 +566,7 @@ export const ParentDashboard = () => {
             </div>
           </div>
           <div className="flex-1 text-left sm:flex sm:items-center sm:gap-4">
-            <h2 className="font-bold ml-1">👨‍👩‍👧 Guardian</h2>
+            <h2 className="font-bold ml-1">👪 Guardian</h2>
           </div>
           <div className="hidden sm:flex items-center gap-3 flex-wrap sm:justify-end">
             <Button
