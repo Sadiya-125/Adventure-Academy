@@ -66,42 +66,17 @@ const DashboardRouter = () => {
         .eq("user_id", user.id)
         .single();
 
-      if (fetchError && fetchError.code === "PGRST116") {
-        const { data: newProfile, error: createError } = await supabase
-          .from("profiles")
-          .insert({
-            user_id: user.id,
-            email: user.email,
-            full_name:
-              user.user_metadata?.full_name ||
-              user.email?.split("@")[0] ||
-              "New User",
-            role: "student",
-            class_level: 2,
-            daily_time_limit: 60,
-            weekly_time_limit: 420,
-          })
-          .select()
-          .single();
-
-        if (createError) {
-          console.error("Error Creating Profile:", createError);
-          setLoading(false);
-          return;
-        }
-
-        setProfile(newProfile);
-      } else if (fetchError) {
-        console.error("Error fetching profile:", fetchError);
+      if (fetchError) {
+        console.error("Error Fetching Profile:", fetchError);
         setLoading(false);
         return;
       } else {
         setProfile(existingProfile);
       }
     } catch (error) {
-      console.error("Unexpected error:", error);
+      console.error("Unexpected Error:", error);
     } finally {
-      console.log("Profile fetch/creation complete.");
+      console.log("Profile Fetch Complete");
       setLoading(false);
     }
   };
@@ -113,7 +88,7 @@ const DashboardRouter = () => {
           <div className="w-16 h-16 bg-gradient-hero rounded-full flex items-center justify-center mx-auto mb-4">
             <span className="text-2xl">🎯</span>
           </div>
-          <p className="text-lg font-bold">Preparing your Dashboard...</p>
+          <p className="text-lg font-bold">Preparing Your Dashboard...</p>
         </div>
       </div>
     );
