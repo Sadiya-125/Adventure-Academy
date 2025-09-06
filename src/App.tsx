@@ -112,7 +112,6 @@ const DashboardRouter = () => {
 
 const PublicRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
-  console.log("Auth State - User:", user, "Loading:", loading);
 
   if (loading) {
     return (
@@ -129,9 +128,9 @@ const PublicRoute = ({ children }: { children: React.ReactNode }) => {
 
   if (user) {
     return <Navigate to="/dashboard" replace />;
-  } else {
-    return <Navigate to="/auth" replace />;
   }
+
+  return <>{children}</>;
 };
 
 const App = () => (
